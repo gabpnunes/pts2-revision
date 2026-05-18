@@ -1,15 +1,9 @@
 import { Link } from 'react-router-dom'
-import { useLayoutEffect, useRef, useCallback } from 'react'
-import katex from 'katex'
+import { useCallback } from 'react'
+import MathBlock from '../components/MathBlock'
 
 function M({ t, d }) {
-  const ref = useRef(null)
-  useLayoutEffect(() => {
-    if (ref.current) {
-      katex.render(t, ref.current, { displayMode: !!d, throwOnError: false })
-    }
-  }, [t, d])
-  return d ? <div className="fs-math-block" ref={ref} /> : <span className="m-inline" ref={ref} />
+  return <MathBlock math={t} display={!!d} />
 }
 
 function Formula({ math, label, given, note }) {

@@ -1741,9 +1741,9 @@ input[type=checkbox]:checked::after {
   font-variant-numeric: tabular-nums;
   font-style: italic;
 }
-.fs-section-body { display: flex; flex-direction: column; gap: 14px; }
+.fs-section-body { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 
-.fs-subsection { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.fs-subsection { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; min-width: 0; }
 .fs-sub-title {
   font-family: var(--font-display);
   font-size: 20px;
@@ -1769,6 +1769,8 @@ input[type=checkbox]:checked::after {
   gap: 8px;
   position: relative;
   transition: border-color 0.15s;
+  min-width: 0;
+  overflow: hidden;
 }
 .fs-formula:hover { border-color: var(--border-strong); }
 
@@ -1779,6 +1781,11 @@ input[type=checkbox]:checked::after {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
+}
+.fs-formula-main .m-block {
+  min-width: 0;
+  overflow-x: auto;
 }
 .fs-formula-label {
   font-size: 13px;
@@ -1786,9 +1793,8 @@ input[type=checkbox]:checked::after {
   color: var(--ink);
 }
 
-.fs-math-block {
-  overflow-x: auto;
-  padding: 2px 0;
+.fs-formula .m-block .katex-display > .katex {
+  font-size: 1.1em;
 }
 
 .fs-formula-badge {
