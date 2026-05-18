@@ -5,6 +5,7 @@ import ScrollToTop from './components/ScrollToTop'
 const Landing = lazy(() => import('./pages/Landing'))
 const Content = lazy(() => import('./pages/Content'))
 const Questions = lazy(() => import('./pages/Questions'))
+const Formulas = lazy(() => import('./pages/Formulas'))
 
 function Loading() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/content" element={<Content />} />
           <Route path="/questions" element={<Questions />} />
+          <Route path="/formulas" element={<Formulas />} />
         </Routes>
       </Suspense>
     </HashRouter>

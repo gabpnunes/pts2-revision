@@ -280,9 +280,9 @@ html, body { height: 100%; }
 
 .cta-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  width: min(720px, 100%);
+  width: min(1020px, 100%);
   margin-top: 16px;
 }
 .cta-card {
@@ -413,7 +413,7 @@ html, body { height: 100%; }
   background: rgba(255,255,255,0.02);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   .cta-row { grid-template-columns: 1fr; }
   .top-meta { display: none; }
   .topbar { padding: 20px 24px; }
@@ -1636,4 +1636,242 @@ input[type=checkbox]:checked::after {
   .qb-header { flex-direction: column; align-items: flex-start; gap: 16px; }
   .qb-stats { width: 100%; justify-content: space-between; }
   .qb-detail { width: 100vw; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Formula Sheet
+   ═══════════════════════════════════════════════════════════════════ */
+.fs-root {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+.fs-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 28px 20px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+.fs-toc {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+.fs-toc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s;
+  line-height: 1.35;
+}
+.fs-toc-item:hover { background: rgba(255,255,255,0.03); color: var(--ink); }
+.fs-toc-num {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  opacity: 0.6;
+  min-width: 18px;
+}
+.fs-toc-label { flex: 1; min-width: 0; }
+
+.fs-legend {
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--ink-muted);
+}
+.fs-legend-item { display: flex; align-items: center; gap: 8px; }
+.fs-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.fs-dot-given { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
+.fs-dot-memorise { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
+
+.fs-main {
+  padding: 56px 64px 120px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.fs-header { margin-bottom: 48px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+
+.fs-section {
+  padding: 36px 0;
+  border-top: 1px solid var(--border);
+}
+.fs-section:first-of-type { border-top: none; padding-top: 16px; }
+
+.fs-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--ink-strong);
+  margin: 0 0 24px;
+}
+.fs-section-num {
+  color: var(--accent-strong);
+  font-variant-numeric: tabular-nums;
+  font-style: italic;
+}
+.fs-section-body { display: flex; flex-direction: column; gap: 14px; }
+
+.fs-subsection { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.fs-sub-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink-strong);
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+.fs-sub-title::before {
+  content: "§";
+  color: var(--ink-faint);
+  margin-right: 6px;
+  font-style: italic;
+  font-size: 0.85em;
+}
+
+.fs-formula {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  transition: border-color 0.15s;
+}
+.fs-formula:hover { border-color: var(--border-strong); }
+
+.fs-given { border-left: 3px solid var(--ok); }
+.fs-memorise { border-left: 3px solid var(--warn); }
+
+.fs-formula-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.fs-formula-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.fs-math-block {
+  overflow-x: auto;
+  padding: 2px 0;
+}
+
+.fs-formula-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.fs-badge-given {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ok);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.fs-badge-given::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ok);
+}
+.fs-badge-memorise {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--warn);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.fs-badge-memorise::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+
+.fs-formula-note {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+
+.fs-note {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.fs-note strong { color: var(--ink-strong); font-weight: 500; }
+.fs-steps {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.fs-steps li { color: var(--ink-soft); }
+.fs-steps li::marker { color: var(--accent); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .fs-root { grid-template-columns: 1fr; }
+  .fs-sidebar {
+    position: relative;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 24px;
+  }
+  .fs-toc { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .fs-toc-item { font-size: 11.5px; padding: 4px 8px; }
+  .fs-legend { flex-direction: row; gap: 16px; border-top: none; padding-top: 0; }
+  .fs-main { padding: 32px 24px 60px; }
+  .fs-section-title { font-size: 26px; }
 }

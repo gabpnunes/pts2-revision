@@ -17,6 +17,7 @@ export default function Landing() {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
       if (e.key === '1') navigate('/content')
       if (e.key === '2') navigate('/questions')
+      if (e.key === '3') navigate('/formulas')
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -50,11 +51,6 @@ export default function Landing() {
           {daysLeft > 0 ? `${daysLeft} days until exam` : 'Exam day'}
         </div>
         <h1 className="title">Probability & <em>Statistics</em></h1>
-        <p className="subtitle">
-          A no-clutter study workspace built around the lectures. Read the guide for
-          definitions, theorems and worked examples — then drill the question bank,
-          filtered exactly how you want it.
-        </p>
 
         <div className="cta-row">
           <Link className="cta-card" to="/content" onMouseMove={ctaTrack}>
@@ -88,6 +84,22 @@ export default function Landing() {
               <span><b>3</b> difficulties</span>
             </div>
           </Link>
+
+          <Link className="cta-card" to="/formulas" onMouseMove={ctaTrack}>
+            <div className="cta-head">
+              <span className="cta-eyebrow">03 · Reference</span>
+              <span className="cta-arrow">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+            <h2 className="cta-title">Formula Sheet</h2>
+            <p className="cta-desc">Every formula, theorem and identity needed for the exam. Marked whether it's given on the official sheet or must be memorised.</p>
+            <div className="cta-meta">
+              <span><b>12</b> topics</span>
+              <span><b>80+</b> formulas</span>
+              <span><b>2</b> categories</span>
+            </div>
+          </Link>
         </div>
       </main>
 
@@ -96,6 +108,7 @@ export default function Landing() {
         <div className="footer-keys">
           <span className="kbd"><b>1</b> Guide</span>
           <span className="kbd"><b>2</b> Bank</span>
+          <span className="kbd"><b>3</b> Formulas</span>
         </div>
       </footer>
     </div>
