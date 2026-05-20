@@ -400,33 +400,34 @@ export default function Questions() {
                 <h2 className="qb-d-prompt"><MathText text={openQ.prompt} /></h2>
               </div>
 
-              {openQ.answer && (
-                <div className="qb-answer-box">
-                  <span className="qb-ans-l">Answer</span>
-                  <span className="qb-ans-v"><MathText text={openQ.answer} /></span>
-                </div>
-              )}
-
               {!showSolution ? (
                 <button className="qb-reveal-solution" onClick={() => setShowSolution(true)}>
                   <EyeIcon />
-                  Reveal step-by-step solution
+                  Reveal solution
                 </button>
               ) : (
-                <div className="qb-q-section">
-                  <div className="qb-section-label">
-                    Solution
-                    <button className="qb-hide-solution" onClick={() => setShowSolution(false)}>Hide</button>
+                <>
+                  {openQ.answer && (
+                    <div className="qb-answer-box">
+                      <span className="qb-ans-l">Answer</span>
+                      <span className="qb-ans-v"><MathText text={openQ.answer} /></span>
+                    </div>
+                  )}
+                  <div className="qb-q-section">
+                    <div className="qb-section-label">
+                      Solution
+                      <button className="qb-hide-solution" onClick={() => setShowSolution(false)}>Hide</button>
+                    </div>
+                    <ol className="qb-sol-steps">
+                      {openQ.solution.map((step, i) => (
+                        <li key={i}>
+                          <span className="qb-sol-n">{i + 1}</span>
+                          <span><MathText text={step} /></span>
+                        </li>
+                      ))}
+                    </ol>
                   </div>
-                  <ol className="qb-sol-steps">
-                    {openQ.solution.map((step, i) => (
-                      <li key={i}>
-                        <span className="qb-sol-n">{i + 1}</span>
-                        <span><MathText text={step} /></span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
+                </>
               )}
 
               <div className="qb-mark-row">
