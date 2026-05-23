@@ -18,6 +18,7 @@ export default function Landing() {
       if (e.key === '1') navigate('/content')
       if (e.key === '2') navigate('/questions')
       if (e.key === '3') navigate('/formulas')
+      if (e.key === '4') navigate('/lastmin')
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -100,6 +101,22 @@ export default function Landing() {
               <span><b>2</b> categories</span>
             </div>
           </Link>
+
+          <Link className="cta-card cta-card-accent" to="/lastmin" onMouseMove={ctaTrack}>
+            <div className="cta-head">
+              <span className="cta-eyebrow">04 · Crunch</span>
+              <span className="cta-arrow">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+            <h2 className="cta-title">Last Minute</h2>
+            <p className="cta-desc">Every concept in bite-sized cards. What it is, the key formula, and how it gets asked on the exam. No fluff.</p>
+            <div className="cta-meta">
+              <span><b>12</b> topics</span>
+              <span><b>45+</b> cards</span>
+              <span><b>Exam</b> tips</span>
+            </div>
+          </Link>
         </div>
       </main>
 
@@ -109,6 +126,7 @@ export default function Landing() {
           <span className="kbd"><b>1</b> Guide</span>
           <span className="kbd"><b>2</b> Bank</span>
           <span className="kbd"><b>3</b> Formulas</span>
+          <span className="kbd"><b>4</b> Last Min</span>
         </div>
       </footer>
     </div>
