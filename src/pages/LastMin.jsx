@@ -251,9 +251,9 @@ export default function LastMin() {
             </ul>
           </Card>
 
-          <Card title="Variance Shortcut Formula" exam="Faster than using the definition. Compute E[X²] and E[X] separately, then subtract. Works in joint-distribution problems too.">
+          <Card title="Variance Shortcut Formula" exam="Use both directions: Var = E[X²]−(E[X])², and reverse: E[X²] = Var + (E[X])². E.g. for Poi(λ): E[X²] = λ + λ².">
             <M t={"\\text{Var}(X) = E[X^2] - (E[X])^2"} d />
-            <p>In a joint context, compute <M t={"E[X]"} /> and <M t={"E[X^2]"} /> using LOTUS with the joint (or marginal) PDF. This avoids finding <M t={"\\mu_X"} /> first.</p>
+            <p><strong>Reverse:</strong> <M t={"E[X^2] = \\text{Var}(X) + (E[X])^2"} />. Use when you know a distribution's moments (e.g. Poisson: <M t={"E[X^2] = \\lambda + \\lambda^2"} />).</p>
           </Card>
         </section>
 
@@ -287,11 +287,12 @@ export default function LastMin() {
             </ol>
           </Card>
 
-          <Card title="Covariance (Def 5.14)" exam="Use the computational formula Cov = E[XY] − E[X]E[Y]. Much faster than the definition.">
+          <Card title="Covariance (Def 5.14)" exam="Use the computational formula Cov = E[XY] − E[X]E[Y]. Sampling without replacement always gives negative covariance.">
             <p><strong>Definition:</strong> <M t={"\\text{Cov}(X,Y) = E[(X - \\mu_X)(Y - \\mu_Y)]"} /></p>
             <p><strong>Computational formula (Thm 5.12):</strong></p>
             <M t={"\\text{Cov}(X,Y) = E[XY] - E[X]E[Y]"} d />
             <p>If independent: <M t={"E[XY] = E[X]E[Y]"} />, so <M t={"\\text{Cov} = 0"} />.</p>
+            <p><strong>Symmetry shortcut:</strong> If the support is symmetric and <M t={"xy \\cdot f(x,y)"} /> is an odd function, then <M t={"E[XY] = 0"} /> by symmetry — no integral needed.</p>
           </Card>
 
           <Card title="Covariance Algebra (Thm 5.13)" exam="These four rules let you expand covariance of any linear combination. Used heavily in variance calculations.">
@@ -391,6 +392,12 @@ export default function LastMin() {
             <p>First term: average variance within each group. Second term: variance of group means.</p>
           </Card>
 
+          <Card title="Tower Property for E[XY]" exam="When you can't compute E[XY] directly via LOTUS, use the tower property: condition on one variable, pull it out.">
+            <M t={"E[XY] = E\\big[E[XY \\mid X]\\big] = E\\big[X \\cdot E[Y \\mid X]\\big]"} d />
+            <p><strong>Key rule:</strong> <M t={"E[g(X) \\cdot Y \\mid X] = g(X) \\cdot E[Y \\mid X]"} /> — known functions of <M t={"X"} /> pull out of <M t={"E[\\cdot \\mid X]"} />.</p>
+            <p>Use when the conditional relationship is given but the joint PDF is not.</p>
+          </Card>
+
           <Card title="Conditioning on Events vs Values" exam="Don't confuse P(A | B) with f(y|x). Events use Bayes' rule with double integrals; values use the conditional PDF.">
             <p><strong>On a value:</strong> <M t={"f_{Y|X}(y|x) = f_{X,Y}(x,y)/f_X(x)"} /> — gives a conditional PDF.</p>
             <p><strong>On an event:</strong> <M t={"P(X \\leq a \\mid Y \\leq b) = \\frac{P(X \\leq a, Y \\leq b)}{P(Y \\leq b)}"} /> — uses Bayes' rule with double integral in numerator, marginal CDF in denominator.</p>
@@ -459,6 +466,18 @@ export default function LastMin() {
             <p>Joint MGF: <M t={"M(\\mathbf{t}) = \\exp\\!\\left(\\boldsymbol{\\mu}^T \\mathbf{t} + \\frac{1}{2}\\mathbf{t}^T \\Sigma\\, \\mathbf{t}\\right)"} /></p>
             <p>Any linear combination of MVN components is also normal.</p>
           </Card>
+
+          <Card title="Joint MGF of Linear Combinations" exam="To test if V=aX+bY, W=cX+dY are independent: compute M_{V,W}(s,t), check if it factors.">
+            <p>Write <M t={"M_{V,W}(s,t) = E[e^{sV+tW}]"} />, substitute the linear definitions, group terms by original variable:</p>
+            <M t={"= E[e^{(sa+tc)X}] \\cdot E[e^{(sb+td)Y}] = M_X(sa+tc) \\cdot M_Y(sb+td)"} d />
+            <p>If the result factors as <M t={"g(s) \\cdot h(t)"} /> → independent. If not (e.g. cross-term <M t={"st"} /> appears) → dependent.</p>
+            <p><strong>Proving BVN:</strong> If the exponent matches the BVN quadratic form, the pair is BVN — read off all 5 parameters.</p>
+          </Card>
+
+          <Card title="T² ~ F(1, ν)" exam="Squaring a t gives an F. Connects t-tests to F-tests.">
+            <M t={"T \\sim t(\\nu) \\implies T^2 \\sim F(1, \\nu)"} d />
+            <p>Proof: <M t={"T^2 = Z^2/(V/\\nu)"} />, and <M t={"Z^2 \\sim \\chi^2(1)"} />, so <M t={"T^2 = (\\chi^2(1)/1)/(\\chi^2(\\nu)/\\nu) = F(1,\\nu)"} />.</p>
+          </Card>
         </section>
 
         {/* ══════════════════════════════════════════════
@@ -485,10 +504,10 @@ export default function LastMin() {
             <p>List all input pairs giving each output value. No calculus needed.</p>
           </Card>
 
-          <Card title="Jacobian Method — Continuous (Thm 6.2)" exam="For 1-to-1 transformations. Faster than CDF method when applicable.">
+          <Card title="Jacobian Method — Continuous (Thm 6.2)" exam="For 1-to-1 transformations. Works in any dimension — 1D, 2D, or 3D. Compute the determinant of the inverse-derivative matrix.">
             <p>If <M t={"W = h(X)"} /> is one-to-one with inverse <M t={"X = h^{-1}(W)"} />:</p>
             <M t={"f_W(w) = f_X(h^{-1}(w)) \\cdot \\left|\\frac{d}{dw}h^{-1}(w)\\right|"} d />
-            <p>For 2D: use the Jacobian determinant <M t={"|J| = \\left|\\frac{\\partial(x,y)}{\\partial(w,z)}\\right|"} />.</p>
+            <p>For 2D: Jacobian <M t={"|J| = \\left|\\frac{\\partial(x,y)}{\\partial(w,z)}\\right|"} />. For 3D: compute the <M t={"3 \\times 3"} /> determinant <M t={"|J| = \\left|\\frac{\\partial(x,y,z)}{\\partial(u,v,w)}\\right|"} />.</p>
           </Card>
 
           <Card title="Auxiliary Variable Technique" exam="When you want f_W but have two variables. Introduce Z = Y (or something simple), find joint of (W,Z), then integrate out Z.">
@@ -591,10 +610,11 @@ export default function LastMin() {
             <p>Equivalently: <M t={"\\frac{\\bar{X} - \\mu}{\\sigma/\\sqrt{n}} \\approx N(0,1)"} />. Works for <em>any</em> population with finite mean and variance.</p>
           </Card>
 
-          <Card title="Distribution of S² (Thm 6.14)" exam="(n−1)S²/σ² ~ χ²(n−1). This is the basis for CI and tests about variance.">
+          <Card title="Distribution of S² (Thm 6.14)" exam="(n−1)S²/σ² ~ χ²(n−1). Use Var(χ²(k))=2k to derive Var(S²)=2σ⁴/(n−1).">
             <p>From a normal population:</p>
             <M t={"\\frac{(n-1)S^2}{\\sigma^2} \\sim \\chi^2(n-1)"} d />
             <p>Crucially: <M t={"\\bar{X}"} /> and <M t={"S^2"} /> are <strong>independent</strong>. This independence is what makes the t-distribution work.</p>
+            <p><strong>Variance of S²:</strong> Since <M t={"\\text{Var}(\\chi^2(k)) = 2k"} />, scaling gives <M t={"\\text{Var}(S^2) = \\frac{2\\sigma^4}{n-1}"} />.</p>
           </Card>
 
           <Card title="Sum of Squared Normals (Thm 6.13)" exam="Sum of n squared standard normals = χ²(n). Connects normal to chi-squared.">
@@ -602,13 +622,14 @@ export default function LastMin() {
             <M t={"\\sum_{i=1}^n Z_i^2 \\sim \\chi^2(n)"} d />
           </Card>
 
-          <Card title="χ² ↔ Gamma ↔ Exponential" exam="These identities let you convert between distributions. Essential for deriving F-statistics from exponential data.">
+          <Card title="χ² ↔ Gamma ↔ Exponential" exam="Convert Exp data to χ² to use tables. E.g. P(2λΣX_i ≤ c) can be looked up directly from the χ²(2n) table.">
             <ul>
               <li><M t={"\\chi^2(n) = \\text{Gamma}(n/2,\\; 2)"} /></li>
               <li><M t={"\\chi^2(2) = \\text{Exp}(1/2)"} /> (special case)</li>
               <li>If <M t={"X \\sim \\text{Exp}(\\lambda)"} />, then <M t={"2\\lambda X \\sim \\chi^2(2)"} /></li>
               <li><M t={"\\sum_{i=1}^n \\text{Exp}(\\lambda) = \\text{Gamma}(n, \\lambda)"} />, so <M t={"2\\lambda \\sum X_i \\sim \\chi^2(2n)"} /></li>
             </ul>
+            <p><strong>Table lookup:</strong> Rearrange probability inequalities involving Exp sums into <M t={"\\chi^2"} /> form, then use the chi-squared table for critical values/quantiles.</p>
           </Card>
 
           <Card title="Prediction Intervals" exam="Different from CI! A CI estimates the mean, a prediction interval covers a future observation.">
@@ -617,7 +638,16 @@ export default function LastMin() {
             <p>Always wider than the CI because it accounts for both estimation uncertainty and individual variability.</p>
           </Card>
 
-          <Card title="Order Statistics (Thm 6.15–6.16)" exam="PDF of k-th order statistic or min/max. Know the formula and the special cases.">
+          <Card title="Standardising Non-i.i.d. Normals" exam="When X_i ~ N(μ_i, σ_i²) with different params, standardise each individually then assemble χ² or t stats.">
+            <p>Given <M t={"X_i \\sim N(\\mu_i, \\sigma_i^2)"} /> (not identically distributed):</p>
+            <ol>
+              <li>Standardise each: <M t={"Z_i = (X_i - \\mu_i)/\\sigma_i \\sim N(0,1)"} /></li>
+              <li><M t={"\\sum Z_i^2 \\sim \\chi^2(n)"} /></li>
+              <li>Build t-stats: <M t={"T = Z_j / \\sqrt{(\\sum_{i \\neq j} Z_i^2)/(n-1)}"} /></li>
+            </ol>
+          </Card>
+
+          <Card title="Order Statistics (Thm 6.15–6.16)" exam="Know both the formula AND how to derive from first principles (exams may forbid using the formula directly).">
             <p>PDF of <M t={"X_{(k)}"} /> (the <M t={"k"} />-th smallest from i.i.d. sample):</p>
             <M t={"f_{X_{(k)}}(x) = \\frac{n!}{(k-1)!(n-k)!} [F(x)]^{k-1}[1-F(x)]^{n-k} f(x)"} d />
             <p>Special cases:</p>
@@ -625,6 +655,7 @@ export default function LastMin() {
               <li>Min: <M t={"F_{X_{(1)}}(x) = 1 - [1-F(x)]^n"} /></li>
               <li>Max: <M t={"F_{X_{(n)}}(x) = [F(x)]^n"} /></li>
             </ul>
+            <p><strong>First-principles derivation:</strong> Find population CDF <M t={"F(x)"} />, use independence (<M t={"P(\\text{all } X_i > x) = [1-F(x)]^n"} />), then differentiate.</p>
           </Card>
 
           <Card title="Range and Median" exam="To find distribution of R=max−min, use auxiliary variable method on the joint order-statistic PDF.">
@@ -674,6 +705,16 @@ export default function LastMin() {
           <Card title="s² from Summary Statistics" exam="When the exam gives Σx_i and Σx_i², use this shortcut instead of computing each (x_i − x̄)².">
             <M t={"S^2 = \\frac{\\sum x_i^2 - n\\bar{x}^2}{n - 1} = \\frac{\\sum x_i^2 - (\\sum x_i)^2/n}{n - 1}"} d />
             <p>Exams frequently provide data as <M t={"\\sum x_i"} /> and <M t={"\\sum x_i^2"} /> rather than raw values. This formula avoids computing each deviation.</p>
+          </Card>
+
+          <Card title="Custom Unbiased Estimators" exam="Given order statistics, find E[Y_(k)] from the PDF, then scale to make unbiased: c·Y_(k) where c = 1/E[Y_(k)/θ].">
+            <p>To build an unbiased estimator of <M t={"\\theta"} /> from <M t={"Y_{(k)}"} />:</p>
+            <ol>
+              <li>Derive <M t={"E[Y_{(k)}]"} /> using the order-statistic PDF</li>
+              <li>Express as <M t={"E[Y_{(k)}] = c \\cdot \\theta"} /></li>
+              <li>Unbiased estimator: <M t={"\\hat{\\theta} = Y_{(k)}/c"} /></li>
+            </ol>
+            <p>Common: <M t={"E[Y_{(1)}] = \\theta/n"} /> for Uniform<M t={"(0,\\theta)"} />, so <M t={"\\hat{\\theta} = nY_{(1)}"} /> is unbiased.</p>
           </Card>
 
           <Card title="Confidence Interval Definition (Def 7.2)" exam="Know the correct interpretation. A CI is about the procedure, not about this particular interval.">
@@ -808,6 +849,12 @@ export default function LastMin() {
             <p>Two-sided: replace <M t={"z_\\alpha"} /> with <M t={"z_{\\alpha/2}"} />. Always round up.</p>
           </Card>
 
+          <Card title="Power for Two-Sample Tests" exam="Same idea as single-sample, but use the two-sample SE in the shift. Tested in Resit 2024.">
+            <p>For a two-sample z-test at alternative <M t={"\\delta_1 = \\mu_X - \\mu_Y"} />:</p>
+            <M t={"\\text{Power} = 1 - \\Phi\\!\\left(z_\\alpha - \\frac{\\delta_1 - d_0}{\\text{SE}}\\right)"} d />
+            <p>where <M t={"\\text{SE} = \\sqrt{\\sigma_X^2/n_X + \\sigma_Y^2/n_Y}"} />. For two-sided, use both tails as in the single-sample case.</p>
+          </Card>
+
           <Card title="CI–HT Duality" exam="A 95% CI and a two-sided test at α = 0.05 always agree. If θ₀ is outside the CI, reject H₀.">
             <p>Reject <M t={"H_0: \\theta = \\theta_0"} /> at level <M t={"\\alpha"} /> <M t={"\\iff"} /> <M t={"\\theta_0"} /> lies <strong>outside</strong> the <M t={"100(1-\\alpha)\\%"} /> CI.</p>
             <p>Example: if 95% CI for <M t={"\\mu"} /> is <M t={"(3.2, 7.8)"} />, then reject <M t={"H_0: \\mu = 2"} /> at <M t={"\\alpha = 0.05"} /> (2 is outside), but fail to reject <M t={"H_0: \\mu = 5"} /> (5 is inside).</p>
@@ -862,6 +909,12 @@ export default function LastMin() {
             <M t={"Z = \\frac{\\hat{p} - p_0}{\\sqrt{p_0(1-p_0)/n}} \\sim N(0,1) \\text{ under } H_0"} d />
             <p>Use <M t={"p_0"} /> (hypothesised value) in denominator because under <M t={"H_0"} /> we know <M t={"p = p_0"} />.</p>
             <p>Condition: <M t={"np_0 \\geq 5"} /> and <M t={"n(1-p_0) \\geq 5"} />.</p>
+          </Card>
+
+          <Card title="Exact Discrete Tests" exam="When np < 5 (normal approx. fails), compute the p-value directly from the pmf. Also applies to Poisson tests.">
+            <p><strong>Exact binomial:</strong> If <M t={"np_0 < 5"} />, compute <M t={"p\\text{-value} = \\sum_{k=0}^{x} \\binom{n}{k} p_0^k (1-p_0)^{n-k}"} /> (left-tail).</p>
+            <p><strong>Poisson test:</strong> For a single observation <M t={"X \\sim \\text{Poi}(\\lambda_0)"} />: <M t={"p\\text{-value} = P(X \\leq x_{\\text{obs}}) = \\sum_{k=0}^{x} e^{-\\lambda_0}\\lambda_0^k/k!"} /></p>
+            <p>Power for discrete tests: sum the pmf over the rejection region under the alternative.</p>
           </Card>
 
           <Card title="Bracketing p-values from Tables" exam="Without a calculator, bound the p-value between two table entries. The exam expects this — not an exact value.">
@@ -930,11 +983,16 @@ export default function LastMin() {
             <p>Convention: put larger <M t={"S^2"} /> on top so <M t={"F \\geq 1"} />, then only check upper tail.</p>
           </Card>
 
-          <Card title="Two-Proportion z-Test" exam="Comparing proportions from two groups. Use the POOLED proportion p̂ in the SE (differs from CI!).">
+          <Card title="Two-Proportion z-Test (d₀ = 0)" exam="When H₀: p_X = p_Y, use the POOLED proportion p̂ in the SE (differs from CI!).">
             <p>Pooled proportion under <M t={"H_0: p_X = p_Y"} />:</p>
             <M t={"\\hat{p} = \\frac{x_1 + x_2}{n_X + n_Y}"} d />
             <M t={"Z = \\frac{\\hat{p}_X - \\hat{p}_Y}{\\sqrt{\\hat{p}(1-\\hat{p})(1/n_X + 1/n_Y)}} \\sim N(0,1)"} d />
             <p><strong>Key difference from CI:</strong> The CI uses each sample's own <M t={"\\hat{p}"} /> in the SE. The test uses the pooled <M t={"\\hat{p}"} /> because under <M t={"H_0"} /> both samples estimate the same <M t={"p"} />.</p>
+          </Card>
+
+          <Card title="Two-Proportion Test (d₀ ≠ 0)" exam="When H₀: p_X − p_Y = d₀ with d₀ ≠ 0, do NOT pool! Use individual p̂'s in SE — same formula as CI. Tested 2024 & 2025 finals.">
+            <M t={"Z = \\frac{(\\hat{p}_X - \\hat{p}_Y) - d_0}{\\sqrt{\\frac{\\hat{p}_X(1-\\hat{p}_X)}{n_X} + \\frac{\\hat{p}_Y(1-\\hat{p}_Y)}{n_Y}}}"} d />
+            <p>Cannot pool because under <M t={"H_0"} /> the two proportions are not equal (they differ by <M t={"d_0"} />), so each sample estimates a different <M t={"p"} />.</p>
           </Card>
 
           <Card title="Two-Population Tests Summary" exam="Know which test statistic, which distribution, and which assumptions for each scenario.">
