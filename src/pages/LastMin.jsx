@@ -679,17 +679,33 @@ export default function LastMin() {
             <h2>Point Estimators & Confidence Intervals</h2>
           </div>
 
+          <Card title="Key Notation for Topics 9–12" exam="Know these symbols — they appear in every formula below.">
+            <ul>
+              <li><M t={"\\bar{X}"} /> = sample mean (average of your data)</li>
+              <li><M t={"S^2"} /> = sample variance; <M t={"S"} /> = sample std dev (computed from data)</li>
+              <li><M t={"\\mu, \\sigma^2"} /> = true population mean & variance (unknown, what we're estimating/testing)</li>
+              <li><M t={"\\mu_0, \\sigma_0^2, p_0"} /> = hypothesised values (what <M t={"H_0"} /> claims)</li>
+              <li><M t={"\\hat{\\theta}"} /> = estimator of <M t={"\\theta"} /> (a formula applied to data), <M t={"\\hat{p} = x/n"} /> = sample proportion</li>
+              <li><M t={"n"} /> = sample size, <M t={"\\alpha"} /> = significance level (usually 0.05)</li>
+              <li><M t={"z_{\\alpha}"} /> = z-value with upper-tail area <M t={"\\alpha"} /> (e.g. <M t={"z_{0.025} = 1.96"} />)</li>
+              <li><M t={"t_{\\nu;\\alpha}"} /> = t-value with <M t={"\\nu"} /> degrees of freedom (df) and upper-tail area <M t={"\\alpha"} /></li>
+              <li><M t={"\\chi^2_{\\nu;\\alpha}"} /> = chi-squared critical value; <M t={"f_{\\nu_1,\\nu_2;\\alpha}"} /> = F critical value</li>
+              <li><M t={"d_0"} /> = hypothesised difference between means/proportions (often 0)</li>
+              <li><M t={"\\Phi(z)"} /> = standard normal CDF = <M t={"P(Z \\leq z)"} /></li>
+            </ul>
+          </Card>
+
           <Card title="Estimator vs Estimate (Def 7.1)" exam="An estimator is a formula (random variable). An estimate is the number you get after plugging in data.">
-            <p><strong>Estimator:</strong> a function of the sample <M t={"\\hat{\\theta} = g(X_1, \\ldots, X_n)"} /> — a random variable.</p>
-            <p><strong>Estimate:</strong> the realised value <M t={"\\hat{\\theta} = g(x_1, \\ldots, x_n)"} /> — a number.</p>
+            <p><strong>Estimator:</strong> a function of the sample <M t={"\\hat{\\theta} = g(X_1, \\ldots, X_n)"} /> — a random variable (it changes with each sample).</p>
+            <p><strong>Estimate:</strong> the realised value <M t={"\\hat{\\theta} = g(x_1, \\ldots, x_n)"} /> — a fixed number from your actual data.</p>
           </Card>
 
           <Card title="Bias, MSE & Efficiency" exam="Check if E[θ̂] = θ (unbiased). MSE = Var + Bias². Compare estimators by MSE or relative efficiency.">
             <ul>
-              <li><strong>Unbiased:</strong> <M t={"E[\\hat{\\theta}] = \\theta"} /></li>
-              <li><strong>Bias:</strong> <M t={"B(\\hat{\\theta}) = E[\\hat{\\theta}] - \\theta"} /></li>
-              <li><strong>MSE:</strong> <M t={"\\text{MSE}(\\hat{\\theta}) = \\text{Var}(\\hat{\\theta}) + [B(\\hat{\\theta})]^2"} /></li>
-              <li><strong>Relative efficiency:</strong> <M t={"e(\\hat{\\theta}_1, \\hat{\\theta}_2) = \\frac{\\text{MSE}(\\hat{\\theta}_2)}{\\text{MSE}(\\hat{\\theta}_1)}"} /> (<M t={"> 1"} /> means <M t={"\\hat{\\theta}_1"} /> is better)</li>
+              <li><strong>Unbiased:</strong> <M t={"E[\\hat{\\theta}] = \\theta"} /> — on average, the estimator hits the true value</li>
+              <li><strong>Bias:</strong> <M t={"B(\\hat{\\theta}) = E[\\hat{\\theta}] - \\theta"} /> — how far off-centre the estimator is on average</li>
+              <li><strong>MSE:</strong> <M t={"\\text{MSE}(\\hat{\\theta}) = \\text{Var}(\\hat{\\theta}) + [B(\\hat{\\theta})]^2"} /> — total error = spread + off-centredness</li>
+              <li><strong>Relative efficiency:</strong> <M t={"e(\\hat{\\theta}_1, \\hat{\\theta}_2) = \\frac{\\text{MSE}(\\hat{\\theta}_2)}{\\text{MSE}(\\hat{\\theta}_1)}"} /> — ratio &gt; 1 means <M t={"\\hat{\\theta}_1"} /> is better</li>
             </ul>
           </Card>
 
@@ -725,19 +741,19 @@ export default function LastMin() {
 
           <Card title="CI for μ (σ known)" exam="Z-interval. Use z_{α/2}. Exact for normal populations, approximate for n ≥ 30 (CLT).">
             <M t={"\\bar{X} \\pm z_{\\alpha/2} \\cdot \\frac{\\sigma}{\\sqrt{n}}"} d />
-            <p>Margin of error: <M t={"E = z_{\\alpha/2} \\cdot \\sigma/\\sqrt{n}"} />.</p>
+            <p>In words: sample mean ± (critical value × standard error). The SE = <M t={"\\sigma/\\sqrt{n}"} /> measures how much <M t={"\\bar{X}"} /> jumps around.</p>
             <p>Common: <M t={"z_{0.025} = 1.96"} /> (95%), <M t={"z_{0.005} = 2.576"} /> (99%), <M t={"z_{0.05} = 1.645"} /> (90%).</p>
           </Card>
 
           <Card title="CI for μ (σ unknown)" exam="t-interval. Replace σ with S, use t critical value with n−1 df. Always wider than z-interval.">
             <M t={"\\bar{X} \\pm t_{n-1;\\,\\alpha/2} \\cdot \\frac{S}{\\sqrt{n}}"} d />
-            <p>Use when <M t={"\\sigma"} /> unknown. <M t={"t_{n-1;\\,\\alpha/2} > z_{\\alpha/2}"} /> always, so the interval is wider — price for estimating <M t={"\\sigma"} />.</p>
+            <p>Same idea as above but <M t={"\\sigma"} /> is unknown, so we estimate it with <M t={"S"} /> (sample std dev). The penalty: use a t critical value (wider tails) instead of z, with <M t={"\\text{df} = n - 1"} />.</p>
           </Card>
 
           <Card title="CI for σ²" exam="Chi-square interval. NOT symmetric! Lower and upper bounds use different chi-square critical values.">
             <M t={"\\left(\\frac{(n-1)S^2}{\\chi^2_{n-1;\\,\\alpha/2}},\\; \\frac{(n-1)S^2}{\\chi^2_{n-1;\\,1-\\alpha/2}}\\right)"} d />
-            <p>Requires normal population — no CLT rescue. For CI of <M t={"\\sigma"} />, take square root of both endpoints.</p>
-            <p>Remember: <M t={"\\chi^2_{n;\\alpha}"} /> = upper-tail probability <M t={"\\alpha"} />, so <M t={"\\chi^2_{n;\\alpha/2}"} /> is the <em>larger</em> value.</p>
+            <p>In words: we know <M t={"(n-1)S^2/\\sigma^2 \\sim \\chi^2(n-1)"} />, so we rearrange to trap <M t={"\\sigma^2"} /> between two bounds. The interval is <strong>not symmetric</strong> because <M t={"\\chi^2"} /> is skewed.</p>
+            <p>For CI of <M t={"\\sigma"} />, take square roots of both endpoints. <M t={"\\chi^2_{n;\\alpha/2}"} /> is the <em>larger</em> critical value.</p>
           </Card>
 
           <Card title="CI for Proportion p" exam="Large-sample z-interval. Use p̂ = x/n. Need np̂ ≥ 5 and n(1−p̂) ≥ 5.">
@@ -762,22 +778,24 @@ export default function LastMin() {
 
           <Card title="CI for μ_X − μ_Y (σ's known)" exam="Two independent samples, variances known. Z-interval for the difference.">
             <M t={"(\\bar{X} - \\bar{Y}) \\pm z_{\\alpha/2}\\sqrt{\\frac{\\sigma_X^2}{n_X} + \\frac{\\sigma_Y^2}{n_Y}}"} d />
+            <p>In words: difference of sample means ± critical value × SE. The SE combines variability from both samples.</p>
           </Card>
 
-          <Card title="CI for μ_X − μ_Y (pooled, σ's equal)" exam="Assume σ_X = σ_Y. Pool sample variances. df = n_X + n_Y − 2.">
-            <p>Pooled variance: <M t={"S_P^2 = \\frac{(n_X-1)S_X^2 + (n_Y-1)S_Y^2}{n_X + n_Y - 2}"} /></p>
+          <Card title="CI for μ_X − μ_Y (pooled, σ's equal)" exam="Assume σ_X = σ_Y. Pool sample variances into one estimate. df = n_X + n_Y − 2.">
+            <p>Pooled variance (weighted average of both sample variances):</p>
+            <M t={"S_P^2 = \\frac{(n_X-1)S_X^2 + (n_Y-1)S_Y^2}{n_X + n_Y - 2}"} d />
             <M t={"(\\bar{X} - \\bar{Y}) \\pm t_{n_X+n_Y-2;\\,\\alpha/2}\\sqrt{S_P^2\\left(\\frac{1}{n_X} + \\frac{1}{n_Y}\\right)}"} d />
           </Card>
 
-          <Card title="CI for μ_X − μ_Y (Welch)" exam="Don't assume equal variances. Use Satterthwaite df formula (round down).">
+          <Card title="CI for μ_X − μ_Y (Welch)" exam="Don't assume equal variances. Each sample keeps its own S². Satterthwaite df formula (round down).">
             <M t={"(\\bar{X} - \\bar{Y}) \\pm t_{\\nu;\\,\\alpha/2}\\sqrt{\\frac{S_X^2}{n_X} + \\frac{S_Y^2}{n_Y}}"} d />
-            <p>Satterthwaite df:</p>
+            <p>The df <M t={"\\nu"} /> is estimated by Satterthwaite's formula (ugly but just plug in — always round down):</p>
             <M t={"\\nu = \\frac{\\left(S_X^2/n_X + S_Y^2/n_Y\\right)^2}{\\frac{(S_X^2/n_X)^2}{n_X-1} + \\frac{(S_Y^2/n_Y)^2}{n_Y-1}}"} d />
           </Card>
 
-          <Card title="CI for σ²_X/σ²_Y" exam="F-based interval. If CI contains 1, no evidence variances differ. Used to decide pooled vs Welch.">
+          <Card title="CI for σ²_X/σ²_Y" exam="F-based interval for the ratio of variances. If CI contains 1, no evidence variances differ → use pooled t-test.">
             <M t={"\\left(\\frac{S_X^2}{S_Y^2} \\cdot \\frac{1}{f_{n_X-1,n_Y-1;\\,\\alpha/2}},\\;\\; \\frac{S_X^2}{S_Y^2} \\cdot f_{n_Y-1,n_X-1;\\,\\alpha/2}\\right)"} d />
-            <p>Both populations must be normal. For <M t={"\\sigma_X/\\sigma_Y"} />, take square roots.</p>
+            <p>In words: take the ratio of sample variances and scale it by F critical values to get bounds on the true variance ratio.</p>
           </Card>
 
           <Card title="CI for p_X − p_Y" exam="Two independent proportions. Each sample uses its own p̂ in the SE (unlike the test!).">
@@ -811,48 +829,51 @@ export default function LastMin() {
 
           <Card title="Test Procedure (5 Steps)" exam="Follow this recipe on EVERY test question. Missing a step costs marks.">
             <ol>
-              <li>State <M t={"H_0"} /> and <M t={"H_1"} /></li>
-              <li>Choose significance level <M t={"\\alpha"} /></li>
-              <li>Compute test statistic from data</li>
-              <li>Find critical value(s) or p-value</li>
-              <li>Reject <M t={"H_0"} /> if test stat in rejection region (or p-value <M t={"\\leq \\alpha"} />)</li>
+              <li><strong>Hypotheses:</strong> state <M t={"H_0"} /> (claim with =) and <M t={"H_1"} /> (what you want to show)</li>
+              <li><strong>Significance level:</strong> choose <M t={"\\alpha"} /> (usually 0.05 = 5% chance of wrongly rejecting)</li>
+              <li><strong>Test statistic:</strong> compute from data (Z, T, <M t={"\\chi^2"} />, or F — depends on the problem)</li>
+              <li><strong>Decision rule:</strong> find critical value(s) from table, or compute p-value</li>
+              <li><strong>Conclusion:</strong> reject <M t={"H_0"} /> if test stat is in the rejection region (or p-value <M t={"\\leq \\alpha"} />)</li>
             </ol>
           </Card>
 
-          <Card title="p-Value" exam="p-value is NOT the probability H₀ is true. It's the probability of data this extreme assuming H₀.">
+          <Card title="p-Value" exam="p-value is NOT the probability H₀ is true. It's the probability of seeing data this extreme IF H₀ were true.">
+            <p>The p-value measures how surprising your data is under <M t={"H_0"} />. Small p → strong evidence against <M t={"H_0"} />.</p>
             <ul>
-              <li><strong>Two-sided:</strong> <M t={"p = 2 \\cdot P(|Z| \\geq |z_{\\text{obs}}| \\mid H_0)"} /></li>
-              <li><strong>Right-sided:</strong> <M t={"p = P(Z \\geq z_{\\text{obs}} \\mid H_0)"} /></li>
-              <li><strong>Left-sided:</strong> <M t={"p = P(Z \\leq z_{\\text{obs}} \\mid H_0)"} /></li>
+              <li><strong>Two-sided:</strong> <M t={"p = 2 \\cdot P(|Z| \\geq |z_{\\text{obs}}|)"} /> — extreme in either direction</li>
+              <li><strong>Right-sided:</strong> <M t={"p = P(Z \\geq z_{\\text{obs}})"} /> — extreme to the right</li>
+              <li><strong>Left-sided:</strong> <M t={"p = P(Z \\leq z_{\\text{obs}})"} /> — extreme to the left</li>
             </ul>
-            <p>Decision: reject <M t={"H_0"} /> iff <M t={"p \\leq \\alpha"} />. The p-value is the smallest <M t={"\\alpha"} /> at which you'd still reject.</p>
+            <p>Decision: reject <M t={"H_0"} /> iff <M t={"p \\leq \\alpha"} />.</p>
           </Card>
 
           <Card title="Type I & II Errors" exam="α = P(reject H₀ | H₀ true). β = P(fail to reject H₀ | H₁ true). Power = 1 − β.">
             <ul>
-              <li><strong>Type I (α):</strong> Reject <M t={"H_0"} /> when it's true (false alarm / "crying wolf")</li>
-              <li><strong>Type II (β):</strong> Fail to reject <M t={"H_0"} /> when <M t={"H_1"} /> is true (missed detection)</li>
+              <li><strong>Type I (α):</strong> Reject <M t={"H_0"} /> when it's actually true — false alarm. You control this by choosing <M t={"\\alpha"} /></li>
+              <li><strong>Type II (β):</strong> Fail to reject <M t={"H_0"} /> when <M t={"H_1"} /> is actually true — missed detection</li>
+              <li><strong>Power = 1 − β:</strong> probability of correctly detecting a real effect</li>
             </ul>
-            <p><M t={"\\alpha"} /> and <M t={"\\beta"} /> are inversely related. Only increasing <M t={"n"} /> reduces both.</p>
+            <p>Trade-off: lowering <M t={"\\alpha"} /> raises <M t={"\\beta"} /> (harder to reject = more missed detections). Only increasing <M t={"n"} /> reduces both.</p>
           </Card>
 
-          <Card title="Power of a Test" exam="Power = 1 − β. For two-sided tests, compute both tail probabilities under the alternative and sum them.">
-            <M t={"\\text{Power}(\\theta_1) = 1 - \\beta(\\theta_1) = P(\\text{reject } H_0 \\mid \\theta = \\theta_1)"} d />
+          <Card title="Power of a Test" exam="Power = 1 − β. 'If the true mean is really μ₁, how likely am I to correctly reject H₀?'">
+            <M t={"\\text{Power}(\\mu_1) = P(\\text{reject } H_0 \\mid \\text{true mean} = \\mu_1)"} d />
+            <p>Here <M t={"\\mu_1"} /> is the actual (alternative) value, <M t={"\\mu_0"} /> is what <M t={"H_0"} /> claims, and <M t={"\\Phi"} /> is the standard normal CDF.</p>
             <p><strong>One-sided</strong> (right-tail): <M t={"\\text{Power} = 1 - \\Phi\\!\\left(z_\\alpha - \\frac{\\mu_1 - \\mu_0}{\\sigma/\\sqrt{n}}\\right)"} /></p>
             <p><strong>Two-sided:</strong> Find critical values <M t={"c_L, c_U"} /> on the <M t={"\\bar{X}"} /> scale, then:</p>
             <M t={"\\beta(\\mu_1) = \\Phi\\!\\left(\\frac{c_U - \\mu_1}{\\sigma/\\sqrt{n}}\\right) - \\Phi\\!\\left(\\frac{c_L - \\mu_1}{\\sigma/\\sqrt{n}}\\right)"} d />
           </Card>
 
-          <Card title="Sample Size for Desired Power" exam="Solve for n given desired power 1−β and specific alternative μ₁.">
-            <p>One-sided z-test:</p>
+          <Card title="Sample Size for Desired Power" exam="'How many observations do I need to detect an effect of size μ₁ − μ₀ with power 1−β?'">
+            <p>One-sided z-test (<M t={"z_\\beta"} /> = z-value for desired Type II error rate):</p>
             <M t={"n \\geq \\left(\\frac{(z_\\alpha + z_\\beta) \\cdot \\sigma}{\\mu_1 - \\mu_0}\\right)^{\\!2}"} d />
-            <p>Two-sided: replace <M t={"z_\\alpha"} /> with <M t={"z_{\\alpha/2}"} />. Always round up.</p>
+            <p>Two-sided: replace <M t={"z_\\alpha"} /> with <M t={"z_{\\alpha/2}"} />. Always round up. Bigger effect = smaller <M t={"n"} /> needed.</p>
           </Card>
 
-          <Card title="Power for Two-Sample Tests" exam="Same idea as single-sample, but use the two-sample SE in the shift. Tested in Resit 2024.">
-            <p>For a two-sample z-test at alternative <M t={"\\delta_1 = \\mu_X - \\mu_Y"} />:</p>
+          <Card title="Power for Two-Sample Tests" exam="'If the true difference is δ₁, how likely am I to detect it?' Same logic as single-sample but with two-sample SE.">
+            <p><M t={"\\delta_1"} /> = true difference <M t={"\\mu_X - \\mu_Y"} />, <M t={"d_0"} /> = claimed difference under <M t={"H_0"} />:</p>
             <M t={"\\text{Power} = 1 - \\Phi\\!\\left(z_\\alpha - \\frac{\\delta_1 - d_0}{\\text{SE}}\\right)"} d />
-            <p>where <M t={"\\text{SE} = \\sqrt{\\sigma_X^2/n_X + \\sigma_Y^2/n_Y}"} />. For two-sided, use both tails as in the single-sample case.</p>
+            <p>where <M t={"\\text{SE} = \\sqrt{\\sigma_X^2/n_X + \\sigma_Y^2/n_Y}"} />. The fraction measures how far the true difference is from <M t={"H_0"} /> in SE units.</p>
           </Card>
 
           <Card title="CI–HT Duality" exam="A 95% CI and a two-sided test at α = 0.05 always agree. If θ₀ is outside the CI, reject H₀.">
@@ -880,35 +901,26 @@ export default function LastMin() {
           </div>
 
           <Card title="z-Test for μ (σ known)" exam="Same pivot as the z-interval. σ known is rare in practice but common on exams.">
+            <p>Test statistic = "how many standard errors is <M t={"\\bar{X}"} /> from the claimed <M t={"\\mu_0"} />?"</p>
             <M t={"Z = \\frac{\\bar{X} - \\mu_0}{\\sigma/\\sqrt{n}} \\sim N(0,1) \\text{ under } H_0"} d />
-            <p>Reject <M t={"H_0"} /> if:</p>
-            <ul>
-              <li>Two-sided: <M t={"|Z| > z_{\\alpha/2}"} /></li>
-              <li>Right-sided: <M t={"Z > z_\\alpha"} /></li>
-              <li>Left-sided: <M t={"Z < -z_\\alpha"} /></li>
-            </ul>
+            <p>Reject <M t={"H_0"} /> if <M t={"Z"} /> is too extreme: two-sided <M t={"|Z| > z_{\\alpha/2}"} />, right-sided <M t={"Z > z_\\alpha"} />, left-sided <M t={"Z < -z_\\alpha"} />.</p>
           </Card>
 
-          <Card title="t-Test for μ (σ unknown)" exam="The most common test in practice. Replace σ with S, use t(n−1) distribution.">
+          <Card title="t-Test for μ (σ unknown)" exam="The most common test. Same idea as z-test but use S instead of σ, and t-table instead of z-table.">
             <M t={"T = \\frac{\\bar{X} - \\mu_0}{S/\\sqrt{n}} \\sim t(n-1) \\text{ under } H_0"} d />
-            <p>Same rejection logic as z-test but with t critical values. Need normal population or <M t={"n \\geq 30"} />.</p>
+            <p><M t={"S"} /> = sample std dev (replaces unknown <M t={"\\sigma"} />). The t-distribution has heavier tails than <M t={"N(0,1)"} />, so you need a bigger test stat to reject. Same rejection logic as z-test but use t critical values with <M t={"\\text{df} = n-1"} />.</p>
           </Card>
 
-          <Card title="χ²-Test for σ²" exam="Test whether variance equals a specific value. NOT symmetric rejection region. Requires normality.">
+          <Card title="χ²-Test for σ²" exam="'Is the variance equal to σ₀²?' Compare (n−1)S²/σ₀² to χ² critical values. NOT symmetric!">
             <M t={"\\chi^2 = \\frac{(n-1)S^2}{\\sigma_0^2} \\sim \\chi^2(n-1) \\text{ under } H_0"} d />
-            <p>Rejection regions:</p>
-            <ul>
-              <li>Two-sided: reject if <M t={"\\chi^2 > \\chi^2_{n-1;\\,\\alpha/2}"} /> or <M t={"\\chi^2 < \\chi^2_{n-1;\\,1-\\alpha/2}"} /></li>
-              <li>Right-sided: reject if <M t={"\\chi^2 > \\chi^2_{n-1;\\,\\alpha}"} /></li>
-              <li>Left-sided: reject if <M t={"\\chi^2 < \\chi^2_{n-1;\\,1-\\alpha}"} /></li>
-            </ul>
-            <p><strong>Requires normal population.</strong> Sensitive to non-normality — CLT doesn't help here.</p>
+            <p>In words: scale the sample variance by the claimed <M t={"\\sigma_0^2"} />. If <M t={"\\sigma^2 = \\sigma_0^2"} />, this ratio follows <M t={"\\chi^2(n-1)"} />.</p>
+            <p>Rejection: two-sided has <em>two different</em> critical values (χ² is not symmetric). Requires normal population.</p>
           </Card>
 
-          <Card title="z-Test for Proportion p" exam="Large-sample test. Use p₀ (not p̂!) in the standard error. This differs from the CI formula.">
+          <Card title="z-Test for Proportion p" exam="'Is the true proportion equal to p₀?' Use p₀ (not p̂!) in SE — because under H₀ we know p = p₀.">
             <M t={"Z = \\frac{\\hat{p} - p_0}{\\sqrt{p_0(1-p_0)/n}} \\sim N(0,1) \\text{ under } H_0"} d />
-            <p>Use <M t={"p_0"} /> (hypothesised value) in denominator because under <M t={"H_0"} /> we know <M t={"p = p_0"} />.</p>
-            <p>Condition: <M t={"np_0 \\geq 5"} /> and <M t={"n(1-p_0) \\geq 5"} />.</p>
+            <p><M t={"\\hat{p} = x/n"} /> = observed proportion, <M t={"p_0"} /> = hypothesised value. The SE uses <M t={"p_0"} /> (not <M t={"\\hat{p}"} />!) because under <M t={"H_0"} /> we assume <M t={"p = p_0"} />. This is different from the CI formula which uses <M t={"\\hat{p}"} />.</p>
+            <p>Condition: <M t={"np_0 \\geq 5"} /> and <M t={"n(1-p_0) \\geq 5"} /> (otherwise use exact binomial test).</p>
           </Card>
 
           <Card title="Exact Discrete Tests" exam="When np < 5 (normal approx. fails), compute the p-value directly from the pmf. Also applies to Poisson tests.">
@@ -942,20 +954,20 @@ export default function LastMin() {
             <h2>Two Population Hypothesis Tests</h2>
           </div>
 
-          <Card title="z-Test for μ_X − μ_Y (σ's known)" exam="Two independent samples, both variances known. Same structure as single-sample z-test.">
+          <Card title="z-Test for μ_X − μ_Y (σ's known)" exam="Two independent samples, both variances known. 'Is there a difference between group means?'">
             <M t={"Z = \\frac{(\\bar{X} - \\bar{Y}) - d_0}{\\sqrt{\\sigma_X^2/n_X + \\sigma_Y^2/n_Y}} \\sim N(0,1)"} d />
-            <p>Usually test <M t={"d_0 = 0"} /> (no difference).</p>
+            <p>Numerator: observed difference minus claimed difference (<M t={"d_0"} />, usually 0). Denominator: SE of the difference. If <M t={"Z"} /> is too extreme → reject.</p>
           </Card>
 
-          <Card title="Pooled t-Test (equal variances)" exam="Pool the variances when you can assume σ₁² = σ₂². df = n₁ + n₂ − 2.">
-            <p>Pooled variance:</p>
+          <Card title="Pooled t-Test (equal variances)" exam="Assumes both populations have the same σ. Pool the two S²'s into one estimate. df = n_X + n_Y − 2.">
+            <p>Pooled variance (weighted average of the two sample variances):</p>
             <M t={"S_P^2 = \\frac{(n_X-1)S_X^2 + (n_Y-1)S_Y^2}{n_X+n_Y-2}"} d />
             <M t={"T = \\frac{(\\bar{X}-\\bar{Y})-d_0}{\\sqrt{S_P^2(1/n_X + 1/n_Y)}} \\sim t(n_X+n_Y-2)"} d />
           </Card>
 
-          <Card title="Welch t-Test (unequal variances)" exam="Use when you can't assume equal variances. Default choice when unsure. Satterthwaite df rounded down.">
+          <Card title="Welch t-Test (unequal variances)" exam="Don't assume equal variances — each sample keeps its own S². Default choice when unsure.">
             <M t={"T = \\frac{(\\bar{X}-\\bar{Y})-d_0}{\\sqrt{S_X^2/n_X + S_Y^2/n_Y}} \\sim t(\\nu)"} d />
-            <p>Satterthwaite degrees of freedom:</p>
+            <p>Same structure as pooled, but the SE uses each sample's own <M t={"S^2"} />. The df (<M t={"\\nu"} />) is estimated by the Satterthwaite formula — just plug in and round down:</p>
             <M t={"\\nu = \\frac{\\left(S_X^2/n_X + S_Y^2/n_Y\\right)^2}{\\frac{(S_X^2/n_X)^2}{n_X-1} + \\frac{(S_Y^2/n_Y)^2}{n_Y-1}}"} d />
           </Card>
 
@@ -969,30 +981,29 @@ export default function LastMin() {
             <p><strong>Full workflow:</strong> (1) F-test for <M t={"\\sigma_1^2 = \\sigma_2^2"} />, (2) if not rejected → pooled t-test, if rejected → Welch t-test. Exams often test this as a sequential two-part question.</p>
           </Card>
 
-          <Card title="Paired t-Test" exam="For PAIRED data (before/after, matched). Compute W_i = X_i − Y_i, then do a one-sample t-test on W.">
-            <p>Given paired <M t={"(X_i, Y_i)"} />, let <M t={"W_i = X_i - Y_i"} />:</p>
+          <Card title="Paired t-Test" exam="For PAIRED data (before/after, matched). Reduce to a one-sample problem by taking differences.">
+            <p>Given paired <M t={"(X_i, Y_i)"} />, compute each difference <M t={"W_i = X_i - Y_i"} />, then do a one-sample t-test on the <M t={"W"} />'s:</p>
             <M t={"T = \\frac{\\bar{W} - d_0}{S_W/\\sqrt{n}} \\sim t(n-1) \\text{ under } H_0"} d />
-            <p><M t={"n"} /> = number of pairs. Usually <M t={"d_0 = 0"} />.</p>
-            <p><strong>Recognise paired data:</strong> same subjects twice, before/after, matched controls, same time period.</p>
+            <p><M t={"\\bar{W}"} /> = mean of differences, <M t={"S_W"} /> = std dev of differences, <M t={"n"} /> = number of pairs, <M t={"d_0"} /> = claimed difference (usually 0).</p>
+            <p><strong>Recognise paired data:</strong> same subjects twice, before/after, matched controls.</p>
           </Card>
 
-          <Card title="F-Test for σ²_X/σ²_Y" exam="Test whether two variances are equal. F = S₁²/S₂². Put the larger variance on top. Very sensitive to non-normality.">
-            <p><M t={"H_0: \\sigma_X^2 = \\sigma_Y^2"} /> → under <M t={"H_0"} />:</p>
-            <M t={"F = \\frac{S_X^2}{S_Y^2} \\sim F(n_X-1, n_Y-1)"} d />
-            <p>Two-sided: reject if <M t={"F > f_{n_X-1,n_Y-1;\\,\\alpha/2}"} /> or <M t={"F < 1/f_{n_Y-1,n_X-1;\\,\\alpha/2}"} />.</p>
-            <p>Convention: put larger <M t={"S^2"} /> on top so <M t={"F \\geq 1"} />, then only check upper tail.</p>
+          <Card title="F-Test for σ²_X/σ²_Y" exam="'Are the two population variances equal?' Ratio of sample variances follows an F-distribution.">
+            <p><M t={"H_0: \\sigma_X^2 = \\sigma_Y^2"} /> — if true, the ratio of sample variances should be close to 1:</p>
+            <M t={"F = \\frac{S_X^2}{S_Y^2} \\sim F(n_X-1, n_Y-1) \\text{ under } H_0"} d />
+            <p>If <M t={"F"} /> is much larger (or smaller) than 1 → reject. Convention: put larger <M t={"S^2"} /> on top so <M t={"F \\geq 1"} />, then only check upper tail.</p>
           </Card>
 
-          <Card title="Two-Proportion z-Test (d₀ = 0)" exam="When H₀: p_X = p_Y, use the POOLED proportion p̂ in the SE (differs from CI!).">
-            <p>Pooled proportion under <M t={"H_0: p_X = p_Y"} />:</p>
-            <M t={"\\hat{p} = \\frac{x_1 + x_2}{n_X + n_Y}"} d />
+          <Card title="Two-Proportion z-Test (d₀ = 0)" exam="'Are the two proportions equal?' Pool the successes from both samples into one p̂.">
+            <p>Under <M t={"H_0: p_X = p_Y"} />, pool all successes: <M t={"\\hat{p} = (x_1 + x_2)/(n_X + n_Y)"} /></p>
             <M t={"Z = \\frac{\\hat{p}_X - \\hat{p}_Y}{\\sqrt{\\hat{p}(1-\\hat{p})(1/n_X + 1/n_Y)}} \\sim N(0,1)"} d />
-            <p><strong>Key difference from CI:</strong> The CI uses each sample's own <M t={"\\hat{p}"} /> in the SE. The test uses the pooled <M t={"\\hat{p}"} /> because under <M t={"H_0"} /> both samples estimate the same <M t={"p"} />.</p>
+            <p>Here <M t={"\\hat{p}_X = x_1/n_X"} /> and <M t={"\\hat{p}_Y = x_2/n_Y"} /> are the two sample proportions. We pool because <M t={"H_0"} /> says they estimate the same <M t={"p"} />.</p>
+            <p><strong>Key:</strong> the CI uses each sample's own <M t={"\\hat{p}"} /> in the SE (no pooling), but the test pools.</p>
           </Card>
 
-          <Card title="Two-Proportion Test (d₀ ≠ 0)" exam="When H₀: p_X − p_Y = d₀ with d₀ ≠ 0, do NOT pool! Use individual p̂'s in SE — same formula as CI. Tested 2024 & 2025 finals.">
+          <Card title="Two-Proportion Test (d₀ ≠ 0)" exam="'Does p_X exceed p_Y by at least 0.2?' Do NOT pool — use individual p̂'s. Tested 2024 & 2025 finals.">
             <M t={"Z = \\frac{(\\hat{p}_X - \\hat{p}_Y) - d_0}{\\sqrt{\\frac{\\hat{p}_X(1-\\hat{p}_X)}{n_X} + \\frac{\\hat{p}_Y(1-\\hat{p}_Y)}{n_Y}}}"} d />
-            <p>Cannot pool because under <M t={"H_0"} /> the two proportions are not equal (they differ by <M t={"d_0"} />), so each sample estimates a different <M t={"p"} />.</p>
+            <p>When <M t={"d_0 \\neq 0"} />, <M t={"H_0"} /> says the proportions differ by <M t={"d_0"} />, so they're not equal — you can't pool. Use each sample's own <M t={"\\hat{p}"} /> in the SE (same formula as the CI).</p>
           </Card>
 
           <Card title="Two-Population Tests Summary" exam="Know which test statistic, which distribution, and which assumptions for each scenario.">
