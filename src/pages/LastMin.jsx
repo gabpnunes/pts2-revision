@@ -294,6 +294,8 @@ export default function LastMin() {
               <li><M t={"\\text{Cov}(aX + b, Y) = a\\,\\text{Cov}(X, Y)"} /> (linear in each argument)</li>
               <li><M t={"\\text{Cov}(X_1 + X_2, Y) = \\text{Cov}(X_1, Y) + \\text{Cov}(X_2, Y)"} /></li>
             </ol>
+            <p><strong>General formula (Ex 5.37):</strong></p>
+            <M t={"\\text{Cov}\\!\\left(\\sum a_i X_i,\\; \\sum b_j Y_j\\right) = \\sum_i \\sum_j a_i b_j\\, \\text{Cov}(X_i, Y_j)"} d />
           </Card>
 
           <Card title="Var(aX + bY + c) (Thm 5.14)" exam="This is the formula you need for ANY linear combination of two RVs.">
