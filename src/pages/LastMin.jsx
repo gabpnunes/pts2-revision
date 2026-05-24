@@ -164,6 +164,7 @@ export default function LastMin() {
               <li><M t={"\\sum_{x_1} \\cdots \\sum_{x_k} f = 1"} /></li>
               <li>Marginal of <M t={"X_1"} />: sum out <M t={"X_2, \\ldots, X_k"} /></li>
             </ul>
+            <p><strong>3D → 2D:</strong> To get the joint of <M t={"(X,Y)"} /> from a 3D joint, integrate out <M t={"Z"} />: <M t={"f_{X,Y}(x,y) = \\int f_{X,Y,Z}(x,y,z)\\, dz"} />.</p>
           </Card>
         </section>
 
@@ -187,9 +188,10 @@ export default function LastMin() {
             <p>When integrating, one variable's range is independent (outer integral), the other depends on it (inner integral).</p>
           </Card>
 
-          <Card title="CDF-PDF Relationship (Def 5.5)" exam="Differentiate the CDF to get the PDF. The mixed partial gives f(x,y).">
+          <Card title="CDF-PDF Relationship (Def 5.5)" exam="Differentiate CDF → PDF. Integrate PDF → CDF. For non-rectangular supports, the CDF integral needs case-splitting.">
             <M t={"f_{X,Y}(x,y) = \\frac{\\partial^2}{\\partial x\\, \\partial y} F_{X,Y}(x,y)"} d />
             <p>And going the other way: <M t={"F_{X,Y}(x,y) = \\int_{-\\infty}^x \\int_{-\\infty}^y f(s,t)\\, dt\\, ds"} /></p>
+            <p><strong>Piecewise CDF:</strong> For non-rectangular supports (e.g. triangles), the integration limits change depending on where <M t={"(x,y)"} /> falls — split into cases by region.</p>
           </Card>
 
           <Card title="Marginal PDFs — Continuous (Def 5.6)" exam="Integrate out the other variable over the support. Watch the limits — they change with the outer variable.">
@@ -248,6 +250,11 @@ export default function LastMin() {
               <li><M t={"g(x,y) = ax + by + c"} /> → use linearity instead</li>
             </ul>
           </Card>
+
+          <Card title="Variance Shortcut Formula" exam="Faster than using the definition. Compute E[X²] and E[X] separately, then subtract. Works in joint-distribution problems too.">
+            <M t={"\\text{Var}(X) = E[X^2] - (E[X])^2"} d />
+            <p>In a joint context, compute <M t={"E[X]"} /> and <M t={"E[X^2]"} /> using LOTUS with the joint (or marginal) PDF. This avoids finding <M t={"\\mu_X"} /> first.</p>
+          </Card>
         </section>
 
         {/* ══════════════════════════════════════════════
@@ -298,20 +305,23 @@ export default function LastMin() {
             <M t={"\\text{Cov}\\!\\left(\\sum a_i X_i,\\; \\sum b_j Y_j\\right) = \\sum_i \\sum_j a_i b_j\\, \\text{Cov}(X_i, Y_j)"} d />
           </Card>
 
-          <Card title="Var(aX + bY + c) (Thm 5.14)" exam="This is the formula you need for ANY linear combination of two RVs.">
+          <Card title="Var(aX + bY + c) (Thm 5.14)" exam="Classic trap: Var(X+Y) ≠ Var(2X) even when X,Y are i.i.d.! Two sources of randomness vs one doubled.">
             <M t={"\\text{Var}(aX + bY + c) = a^2\\text{Var}(X) + b^2\\text{Var}(Y) + 2ab\\,\\text{Cov}(X,Y)"} d />
             <p>Constants don't affect variance. If independent, the covariance term vanishes.</p>
+            <p><strong>Exam trap:</strong> <M t={"\\text{Var}(X+Y) = 2\\sigma^2"} /> but <M t={"\\text{Var}(2X) = 4\\sigma^2"} /> (for i.i.d.). Two independent sources ≠ one source doubled.</p>
           </Card>
 
-          <Card title="Correlation Coefficient (Def 5.15)" exam="Standardised covariance, always in [−1, 1]. ρ = ±1 iff perfect linear relationship.">
-            <M t={"\\rho_{X,Y} = \\frac{\\text{Cov}(X,Y)}{\\sqrt{\\text{Var}(X)\\,\\text{Var}(Y)}} = \\frac{\\text{Cov}(X,Y)}{\\sigma_X \\sigma_Y}"} d />
-            <p><M t={"-1 \\leq \\rho \\leq 1"} /> (Thm 5.15). Measures <em>linear</em> association only. <M t={"\\rho = \\pm 1 \\iff Y = aX + b"} /> (perfect line).</p>
+          <Card title="Correlation Coefficient (Def 5.15)" exam="Know both directions: ρ = Cov/(σ_Xσ_Y), and Cov = ρσ_Xσ_Y. Exams often give ρ and ask for Var(aX+bY).">
+            <M t={"\\rho_{X,Y} = \\frac{\\text{Cov}(X,Y)}{\\sigma_X \\sigma_Y}"} d />
+            <p><strong>Reverse:</strong> <M t={"\\text{Cov}(X,Y) = \\rho \\cdot \\sigma_X \\cdot \\sigma_Y"} />. Use this to recover Cov when given <M t={"\\rho"} />.</p>
+            <p><M t={"-1 \\leq \\rho \\leq 1"} /> (Thm 5.15). <M t={"\\rho = \\pm 1 \\iff Y = aX + b"} />. Exception: for BVN, <M t={"\\rho = 0 \\iff"} /> independent.</p>
           </Card>
 
-          <Card title="Uncorrelated ≠ Independent" exam="Classic exam trap! Cov = 0 does NOT imply independence. Counterexample: X ~ Uniform, Y = X².">
+          <Card title="Uncorrelated ≠ Independent" exam="Two classic counterexamples: (1) X vs X², (2) X−Y vs X+Y. Both have Cov=0 but are dependent.">
             <p>Independence → <M t={"\\text{Cov} = 0"} /> (always true).</p>
             <p><M t={"\\text{Cov} = 0"} /> → independence (FALSE in general).</p>
-            <p><strong>Counterexample:</strong> <M t={"X \\sim \\text{Uniform}(-1,1)"} />, <M t={"Y = X^2"} />. Then <M t={"\\text{Cov}(X,Y) = 0"} /> but <M t={"Y"} /> is completely determined by <M t={"X"} />.</p>
+            <p><strong>Example 1:</strong> <M t={"X \\sim \\text{Uniform}(-1,1)"} />, <M t={"Y = X^2"} />. <M t={"\\text{Cov} = 0"} /> but <M t={"Y"} /> is determined by <M t={"X"} />.</p>
+            <p><strong>Example 2:</strong> <M t={"U = X-Y"} />, <M t={"V = X+Y"} />. <M t={"\\text{Cov}(U,V) = \\text{Var}(X) - \\text{Var}(Y) = 0"} /> when <M t={"\\text{Var}(X) = \\text{Var}(Y)"} />, but <M t={"U,V"} /> share <M t={"X"} /> and <M t={"Y"} /> so are dependent.</p>
             <p>Exception: for <strong>BVN</strong>, <M t={"\\rho = 0 \\iff"} /> independent.</p>
           </Card>
 
@@ -379,6 +389,11 @@ export default function LastMin() {
           <Card title="Law of Total Variance" exam="Var(Y) = E[Var(Y|X)] + Var(E[Y|X]). Decompose total variance into 'within' + 'between'.">
             <M t={"\\text{Var}(Y) = E\\big[\\text{Var}(Y \\mid X)\\big] + \\text{Var}\\big(E[Y \\mid X]\\big)"} d />
             <p>First term: average variance within each group. Second term: variance of group means.</p>
+          </Card>
+
+          <Card title="Conditioning on Events vs Values" exam="Don't confuse P(A | B) with f(y|x). Events use Bayes' rule with double integrals; values use the conditional PDF.">
+            <p><strong>On a value:</strong> <M t={"f_{Y|X}(y|x) = f_{X,Y}(x,y)/f_X(x)"} /> — gives a conditional PDF.</p>
+            <p><strong>On an event:</strong> <M t={"P(X \\leq a \\mid Y \\leq b) = \\frac{P(X \\leq a, Y \\leq b)}{P(Y \\leq b)}"} /> — uses Bayes' rule with double integral in numerator, marginal CDF in denominator.</p>
           </Card>
 
           <Card title="Five-Step Conditional Recipe" exam="Follow this recipe whenever you see a conditional distribution question on the exam.">
@@ -455,14 +470,14 @@ export default function LastMin() {
             <h2>Transformations & Distributions of Sums</h2>
           </div>
 
-          <Card title="CDF Method" exam="Most general method. Write F_W(w) = P(h(X,Y) ≤ w), translate to an integral, then differentiate.">
+          <Card title="CDF Method" exam="Most general method. For ratios W=Y/X, the line y=wx intersects the support differently for different w — split into cases.">
             <ol>
               <li>Define <M t={"W = h(X, Y)"} /></li>
               <li>Write <M t={"F_W(w) = P(W \\leq w)"} /></li>
               <li>Express as integral over known PDF</li>
               <li>Differentiate: <M t={"f_W(w) = F_W'(w)"} /></li>
             </ol>
-            <p>Works for any transformation. The hard part is getting the integration region right.</p>
+            <p><strong>Ratio W=Y/X:</strong> The region <M t={"\\{Y/X \\leq w\\}"} /> changes shape depending on <M t={"w"} />. Draw how the line <M t={"y = wx"} /> sweeps through the support — case-split where it crosses a boundary.</p>
           </Card>
 
           <Card title="Transformation — Discrete (Thm 6.1)" exam="For discrete RVs, just collect all (x,y) pairs that map to the same w and sum their probabilities.">
@@ -511,6 +526,18 @@ export default function LastMin() {
             </ul>
           </Card>
 
+          <Card title="PDF Recognition Checklist" exam="After deriving a PDF, always check if it matches a named distribution. This often simplifies the rest of the question.">
+            <ul>
+              <li><M t={"ye^{-y}"} /> on <M t={"[0,\\infty)"} /> → <M t={"\\text{Gamma}(2,1)"} /></li>
+              <li><M t={"e^{-y}"} /> on <M t={"[0,\\infty)"} /> → <M t={"\\text{Exp}(1)"} /></li>
+              <li><M t={"\\lambda e^{-\\lambda y}"} /> → <M t={"\\text{Exp}(\\lambda)"} /></li>
+              <li><M t={"y^{\\alpha-1}e^{-y/\\beta}"} /> → <M t={"\\text{Gamma}(\\alpha, \\beta)"} /></li>
+              <li><M t={"ye^{-y^2/2}"} /> on <M t={"[0,\\infty)"} /> → Rayleigh</li>
+              <li><M t={"e^{-e^{-y}} \\cdot e^{-y}"} /> → Gumbel (standard)</li>
+            </ul>
+            <p>Always check: does your derived PDF match one of these? If so, use known moments/properties.</p>
+          </Card>
+
           <Card title="Comparison of Three Methods" exam="Choose the right method: CDF = most general; Jacobian = 1-to-1 transforms; MGF = sums of independents.">
             <ul>
               <li><strong>CDF method:</strong> always works, can be tedious. Best for non-monotone transforms or when regions are tricky.</li>
@@ -550,6 +577,7 @@ export default function LastMin() {
           <Card title="F Reciprocal Property" exam="Don't need a separate lower critical value — just flip numerator/denominator and swap df.">
             <M t={"\\frac{1}{F(\\nu_1, \\nu_2)} \\sim F(\\nu_2, \\nu_1)"} d />
             <p>So <M t={"f_{\\nu_1,\\nu_2;\\,1-\\alpha} = \\frac{1}{f_{\\nu_2,\\nu_1;\\,\\alpha}}"} />. This lets you compute lower critical values from upper ones.</p>
+            <p><strong>Algebra tip:</strong> For expressions like <M t={"P(Y/(1+Y) > c)"} />, rearrange to <M t={"P(Y > c/(1-c))"} /> before looking up the F-table.</p>
           </Card>
 
           <Card title="Distribution of X̄ (Thm 6.12)" exam="This is the foundation for ALL inference. Know it cold.">
@@ -574,6 +602,15 @@ export default function LastMin() {
             <M t={"\\sum_{i=1}^n Z_i^2 \\sim \\chi^2(n)"} d />
           </Card>
 
+          <Card title="χ² ↔ Gamma ↔ Exponential" exam="These identities let you convert between distributions. Essential for deriving F-statistics from exponential data.">
+            <ul>
+              <li><M t={"\\chi^2(n) = \\text{Gamma}(n/2,\\; 2)"} /></li>
+              <li><M t={"\\chi^2(2) = \\text{Exp}(1/2)"} /> (special case)</li>
+              <li>If <M t={"X \\sim \\text{Exp}(\\lambda)"} />, then <M t={"2\\lambda X \\sim \\chi^2(2)"} /></li>
+              <li><M t={"\\sum_{i=1}^n \\text{Exp}(\\lambda) = \\text{Gamma}(n, \\lambda)"} />, so <M t={"2\\lambda \\sum X_i \\sim \\chi^2(2n)"} /></li>
+            </ul>
+          </Card>
+
           <Card title="Prediction Intervals" exam="Different from CI! A CI estimates the mean, a prediction interval covers a future observation.">
             <p>A <M t={"100(1-\\alpha)\\%"} /> prediction interval for a future observation <M t={"X_{n+1}"} />:</p>
             <M t={"\\bar{X} \\pm t_{n-1;\\,\\alpha/2} \\cdot S\\sqrt{1 + \\frac{1}{n}}"} d />
@@ -590,7 +627,7 @@ export default function LastMin() {
             </ul>
           </Card>
 
-          <Card title="Range and Median" exam="Range = max − min. Median = middle order statistic. Know the definitions.">
+          <Card title="Range and Median" exam="To find distribution of R=max−min, use auxiliary variable method on the joint order-statistic PDF.">
             <p><strong>Range:</strong> <M t={"R = X_{(n)} - X_{(1)}"} /> (max minus min)</p>
             <p><strong>Sample median:</strong></p>
             <ul>
@@ -598,6 +635,7 @@ export default function LastMin() {
               <li>Even <M t={"n"} />: <M t={"\\tilde{X} = \\frac{X_{(n/2)} + X_{(n/2+1)}}{2}"} /></li>
             </ul>
             <p>Joint PDF of all order statistics: <M t={"f_{X_{(1)},\\ldots,X_{(n)}}(x_1,\\ldots,x_n) = n! \\prod f(x_i)"} /> for <M t={"x_1 < \\cdots < x_n"} />.</p>
+            <p><strong>Range distribution:</strong> Transform <M t={"(X_{(1)}, X_{(n)})"} /> → <M t={"(R, Z)"} /> where <M t={"R = X_{(n)} - X_{(1)}"} /> and <M t={"Z = X_{(1)}"} /> (auxiliary). Apply the Jacobian method to the joint PDF of <M t={"(X_{(1)}, X_{(n)})"} />, then integrate out <M t={"Z"} />.</p>
           </Card>
         </section>
 
@@ -631,6 +669,11 @@ export default function LastMin() {
               <li><M t={"\\hat{p} = X/n"} />: unbiased for <M t={"p"} />, <M t={"\\text{Var}(\\hat{p}) = p(1-p)/n"} /></li>
             </ul>
             <p>Caution: <M t={"S"} /> is NOT unbiased for <M t={"\\sigma"} /> (Jensen's inequality).</p>
+          </Card>
+
+          <Card title="s² from Summary Statistics" exam="When the exam gives Σx_i and Σx_i², use this shortcut instead of computing each (x_i − x̄)².">
+            <M t={"S^2 = \\frac{\\sum x_i^2 - n\\bar{x}^2}{n - 1} = \\frac{\\sum x_i^2 - (\\sum x_i)^2/n}{n - 1}"} d />
+            <p>Exams frequently provide data as <M t={"\\sum x_i"} /> and <M t={"\\sum x_i^2"} /> rather than raw values. This formula avoids computing each deviation.</p>
           </Card>
 
           <Card title="Confidence Interval Definition (Def 7.2)" exam="Know the correct interpretation. A CI is about the procedure, not about this particular interval.">
@@ -752,10 +795,11 @@ export default function LastMin() {
             <p><M t={"\\alpha"} /> and <M t={"\\beta"} /> are inversely related. Only increasing <M t={"n"} /> reduces both.</p>
           </Card>
 
-          <Card title="Power of a Test" exam="Power = 1 − β = P(correctly reject H₀). Increases with n, |effect size|, α, and lower σ².">
+          <Card title="Power of a Test" exam="Power = 1 − β. For two-sided tests, compute both tail probabilities under the alternative and sum them.">
             <M t={"\\text{Power}(\\theta_1) = 1 - \\beta(\\theta_1) = P(\\text{reject } H_0 \\mid \\theta = \\theta_1)"} d />
-            <p>For a right-sided z-test at alternative <M t={"\\mu_1"} />:</p>
-            <M t={"\\text{Power} = 1 - \\Phi\\!\\left(z_\\alpha - \\frac{\\mu_1 - \\mu_0}{\\sigma/\\sqrt{n}}\\right)"} d />
+            <p><strong>One-sided</strong> (right-tail): <M t={"\\text{Power} = 1 - \\Phi\\!\\left(z_\\alpha - \\frac{\\mu_1 - \\mu_0}{\\sigma/\\sqrt{n}}\\right)"} /></p>
+            <p><strong>Two-sided:</strong> Find critical values <M t={"c_L, c_U"} /> on the <M t={"\\bar{X}"} /> scale, then:</p>
+            <M t={"\\beta(\\mu_1) = \\Phi\\!\\left(\\frac{c_U - \\mu_1}{\\sigma/\\sqrt{n}}\\right) - \\Phi\\!\\left(\\frac{c_L - \\mu_1}{\\sigma/\\sqrt{n}}\\right)"} d />
           </Card>
 
           <Card title="Sample Size for Desired Power" exam="Solve for n given desired power 1−β and specific alternative μ₁.">
@@ -769,13 +813,13 @@ export default function LastMin() {
             <p>Example: if 95% CI for <M t={"\\mu"} /> is <M t={"(3.2, 7.8)"} />, then reject <M t={"H_0: \\mu = 2"} /> at <M t={"\\alpha = 0.05"} /> (2 is outside), but fail to reject <M t={"H_0: \\mu = 5"} /> (5 is inside).</p>
           </Card>
 
-          <Card title="Power Function & OC Curve" exam="Power function π(θ) gives probability of rejection for each θ. OC curve is β(θ) = 1 − π(θ).">
+          <Card title="Power Function & OC Curve" exam="To sketch the OC curve, compute β(μ₁) at several alternative values by converting critical values to z-scores under each μ₁.">
             <M t={"\\pi(\\theta) = P(\\text{reject } H_0 \\mid \\theta)"} d />
             <ul>
               <li>At <M t={"\\theta = \\theta_0"} />: <M t={"\\pi(\\theta_0) = \\alpha"} /></li>
               <li>At <M t={"\\theta \\neq \\theta_0"} />: <M t={"\\pi(\\theta) = 1 - \\beta(\\theta) = \\text{Power}"} /></li>
             </ul>
-            <p>The OC curve plots <M t={"\\beta(\\theta)"} /> — probability of <em>failing</em> to reject.</p>
+            <p><strong>To compute β(μ₁):</strong> convert rejection boundaries to the <M t={"\\bar{X}"} /> scale (<M t={"c = \\mu_0 \\pm z_{\\alpha/2} \\cdot \\sigma/\\sqrt{n}"} />), then compute <M t={"P(c_L < \\bar{X} < c_U \\mid \\mu_1)"} /> using z-scores centred at <M t={"\\mu_1"} />.</p>
           </Card>
         </section>
 
@@ -820,6 +864,12 @@ export default function LastMin() {
             <p>Condition: <M t={"np_0 \\geq 5"} /> and <M t={"n(1-p_0) \\geq 5"} />.</p>
           </Card>
 
+          <Card title="Bracketing p-values from Tables" exam="Without a calculator, bound the p-value between two table entries. The exam expects this — not an exact value.">
+            <p>For a t-test: find where <M t={"|t_{\\text{obs}}|"} /> falls between consecutive table entries:</p>
+            <p>If <M t={"t_{\\nu,0.025} < |t_{\\text{obs}}| < t_{\\nu,0.01}"} />, then for a two-sided test: <M t={"0.02 < p < 0.05"} />.</p>
+            <p>For one-sided: halve the column headers. Same idea for <M t={"\\chi^2"} /> and F tables.</p>
+          </Card>
+
           <Card title="Choosing the Right Test" exam="Decision tree: (1) What parameter? (2) Is σ known? This determines the test statistic and distribution.">
             <ul>
               <li><strong>Testing <M t={"\\mu"} />, <M t={"\\sigma"} /> known</strong> → z-test (<M t={"N(0,1)"} />)</li>
@@ -856,13 +906,14 @@ export default function LastMin() {
             <M t={"\\nu = \\frac{\\left(S_X^2/n_X + S_Y^2/n_Y\\right)^2}{\\frac{(S_X^2/n_X)^2}{n_X-1} + \\frac{(S_Y^2/n_Y)^2}{n_Y-1}}"} d />
           </Card>
 
-          <Card title="Decision Flowchart: Which Mean Test?" exam="First check: paired? Then: σ known? Then: σ's equal? This determines everything.">
+          <Card title="Decision Flowchart: Which Mean Test?" exam="Common exam pattern: part (a) = F-test for variances, part (b) = choose pooled/Welch based on (a). Do them in order.">
             <ol>
               <li><strong>Are samples paired?</strong> Yes → paired t-test</li>
               <li><strong>Are variances known?</strong> Yes → z-test</li>
               <li><strong>Can we assume equal variances?</strong> Yes → pooled t-test. No (or unsure) → Welch t-test</li>
             </ol>
-            <p>Tip: use F-test first to check equal variances, or default to Welch (safer).</p>
+            <p><strong>Quick heuristic:</strong> if <M t={"s_1^2/s_2^2 > 3"} /> (or <M t={"< 1/3"} />), suspect unequal variances → use Welch.</p>
+            <p><strong>Full workflow:</strong> (1) F-test for <M t={"\\sigma_1^2 = \\sigma_2^2"} />, (2) if not rejected → pooled t-test, if rejected → Welch t-test. Exams often test this as a sequential two-part question.</p>
           </Card>
 
           <Card title="Paired t-Test" exam="For PAIRED data (before/after, matched). Compute W_i = X_i − Y_i, then do a one-sample t-test on W.">
