@@ -2448,6 +2448,73 @@ input[type=checkbox]:checked::after {
   color: var(--ink-muted);
 }
 
+.rb-desmos {
+  margin: 12px 0;
+}
+.rb-desmos-label {
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.rb-worked {
+  margin-top: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.rb-worked-open {
+  border-color: var(--accent);
+}
+.rb-worked-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(139, 146, 255, 0.04);
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  transition: background 0.15s;
+}
+.rb-worked-toggle:hover {
+  background: rgba(139, 146, 255, 0.1);
+}
+.rb-worked-badge {
+  background: var(--accent);
+  color: var(--bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rb-worked-title {
+  flex: 1;
+  text-align: left;
+  font-weight: 500;
+}
+.rb-worked-chevron {
+  font-size: 18px;
+  color: var(--ink-muted);
+  font-weight: 300;
+}
+.rb-worked-body {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.7;
+}
+.rb-worked-body p { margin: 0 0 8px; }
+.rb-worked-body .rb-step { margin: 10px 0; }
+
 .rb-footer {
   margin-top: 48px;
   padding-top: 24px;
