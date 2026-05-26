@@ -19,6 +19,7 @@ export default function Landing() {
       if (e.key === '2') navigate('/questions')
       if (e.key === '3') navigate('/formulas')
       if (e.key === '4') navigate('/lastmin')
+      if (e.key === '5') navigate('/recipes')
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -117,6 +118,22 @@ export default function Landing() {
               <span><b>Exam</b> tips</span>
             </div>
           </Link>
+
+          <Link className="cta-card cta-card-accent" to="/recipes" onMouseMove={ctaTrack}>
+            <div className="cta-head">
+              <span className="cta-eyebrow">05 · Execute</span>
+              <span className="cta-arrow">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+            <h2 className="cta-title">Recipe Book</h2>
+            <p className="cta-desc">Step-by-step recipes for every exam question type. Prioritized by frequency across 5 past exams with diagrams and worked examples.</p>
+            <div className="cta-meta">
+              <span><b>28</b> recipes</span>
+              <span><b>5</b> exams analyzed</span>
+              <span><b>Priority</b> ranked</span>
+            </div>
+          </Link>
         </div>
       </main>
 
@@ -127,6 +144,7 @@ export default function Landing() {
           <span className="kbd"><b>2</b> Bank</span>
           <span className="kbd"><b>3</b> Formulas</span>
           <span className="kbd"><b>4</b> Last Min</span>
+          <span className="kbd"><b>5</b> Recipes</span>
         </div>
       </footer>
     </div>

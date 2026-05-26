@@ -7,6 +7,7 @@ const Content = lazy(() => import('./pages/Content'))
 const Questions = lazy(() => import('./pages/Questions'))
 const Formulas = lazy(() => import('./pages/Formulas'))
 const LastMin = lazy(() => import('./pages/LastMin'))
+const RecipeBook = lazy(() => import('./pages/RecipeBook'))
 
 function Loading() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/questions" element={<Questions />} />
           <Route path="/formulas" element={<Formulas />} />
           <Route path="/lastmin" element={<LastMin />} />
+          <Route path="/recipes" element={<RecipeBook />} />
         </Routes>
       </Suspense>
     </HashRouter>

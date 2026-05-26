@@ -2159,3 +2159,326 @@ input[type=checkbox]:checked::after {
   .lm-title { font-size: 28px; }
   .lm-section-head h2 { font-size: 20px; }
 }
+
+/* ========================================
+   Recipe Book (rb-*)
+   ======================================== */
+.rb-root {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.rb-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  gap: 8px;
+}
+
+.rb-back {
+  font-size: 13px;
+  color: var(--ink-muted);
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+.rb-back:hover { color: var(--accent); }
+
+.rb-toc {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.rb-toc-group {
+  margin-bottom: 8px;
+}
+
+.rb-toc-group-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  padding: 8px 8px 4px;
+  font-weight: 600;
+}
+
+.rb-toc-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 5px 8px;
+  font-size: 12px;
+  color: var(--ink-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  line-height: 1.4;
+  transition: background 0.15s, color 0.15s;
+}
+.rb-toc-item:hover { background: var(--accent-soft); color: var(--ink); }
+.rb-toc-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+
+.rb-main {
+  padding: 48px 56px 80px;
+  max-width: 840px;
+}
+
+.rb-header { margin-bottom: 48px; }
+
+.rb-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+.rb-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.rb-subtitle {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.rb-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.rb-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.rb-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.rb-part-divider {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--accent);
+  padding: 40px 0 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.rb-recipe {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 20px;
+  transition: border-color 0.2s;
+}
+.rb-recipe:hover { border-color: var(--border-strong); }
+
+.rb-recipe-head {
+  margin-bottom: 20px;
+}
+
+.rb-recipe-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+
+.rb-recipe-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.rb-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.rb-priority-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.rb-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+}
+.rb-dot-filled {
+  background: var(--pri-color);
+}
+
+.rb-priority-label {
+  font-weight: 600;
+  color: var(--pri-color);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+}
+
+.rb-priority-count {
+  color: var(--ink-faint);
+  font-size: 10px;
+}
+
+.rb-points {
+  font-size: 11px;
+  color: var(--ink-muted);
+  background: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.rb-recipe-body {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.7;
+}
+.rb-recipe-body p { margin: 0 0 8px; }
+.rb-recipe-body p:last-child { margin-bottom: 0; }
+.rb-recipe-body ul {
+  margin: 4px 0 8px;
+  padding-left: 20px;
+}
+.rb-recipe-body li { margin-bottom: 4px; }
+
+.rb-step {
+  display: flex;
+  gap: 14px;
+  margin: 14px 0;
+  align-items: flex-start;
+}
+
+.rb-step-num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.rb-step-content {
+  flex: 1;
+  min-width: 0;
+}
+.rb-step-content strong {
+  color: var(--ink);
+}
+
+.rb-diagram {
+  background: rgba(139, 146, 255, 0.06);
+  border: 1px solid rgba(139, 146, 255, 0.15);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.rb-diagram-label {
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.rb-diagram-content {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre;
+}
+
+.rb-warning {
+  background: rgba(255, 77, 77, 0.08);
+  border-left: 3px solid #ff4d4d;
+  padding: 10px 14px;
+  margin: 12px 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.rb-tip {
+  background: rgba(139, 146, 255, 0.08);
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  margin: 12px 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.rb-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--ink-faint);
+  text-align: center;
+}
+.rb-footer p { margin: 4px 0; }
+
+@media (max-width: 900px) {
+  .rb-root { grid-template-columns: 1fr; }
+  .rb-sidebar {
+    position: relative;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 20px;
+    overflow-y: visible;
+  }
+  .rb-toc { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .rb-toc-item { font-size: 11px; padding: 4px 8px; }
+  .rb-toc-group-label { display: none; }
+  .rb-toc-group { margin-bottom: 0; }
+  .rb-main { padding: 28px 20px 60px; }
+  .rb-title { font-size: 28px; }
+  .rb-recipe { padding: 20px; }
+  .rb-recipe-title { font-size: 17px; }
+  .rb-diagram { padding: 12px; }
+  .rb-diagram-content { font-size: 10.5px; }
+}
