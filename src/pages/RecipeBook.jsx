@@ -204,6 +204,7 @@ const recipes = [
   { id: 'pred-exact-binomial', title: '🔮 Exact Binomial Test' },
   { id: 'pred-welch', title: '🔮 Welch CI (Unequal Variances)' },
   { id: 'pred-two-prop-equal', title: '🔮 Two-Proportion Test (Δ₀ = 0)' },
+  { id: 'pred-paired-t', title: '🔮 Paired t-Test (Dependent Samples)' },
   { id: 'pred-cov-matrix', title: '🔮 Covariance Matrix & Multivariate Normal' },
   { id: 'pred-joint-mgf', title: '🔮 Joint MGF & Finding Moments' },
   { id: 'pred-multinomial', title: '🔮 Multinomial Distribution' },
@@ -217,7 +218,7 @@ const sectionGroups = [
   { label: 'Part B · Transformations', ids: ['mgf-method', 'cdf-method', 'jacobian', 'draw-support', 'order-stats', 'bvn', 'build-stats', 'iterated-exp'] },
   { label: 'Part C · Confidence Intervals', ids: ['ci-mean', 'ci-proportion', 'ci-variance', 'ci-diff-means', 'sample-size'] },
   { label: 'Part D · Hypothesis Testing', ids: ['z-test', 't-test', 'chi-sq-var', 'prop-test', 'two-sample', 'f-test', 'power', 'p-value', 'type-i'] },
-  { label: '🔮 Predictions', ids: ['pred-general-order', 'pred-pooled-t-delta', 'pred-exact-binomial', 'pred-welch', 'pred-two-prop-equal', 'pred-cov-matrix', 'pred-joint-mgf', 'pred-multinomial', 'pred-mv-hyper', 'pred-convolution', 'pred-unbiased'] },
+  { label: '🔮 Predictions', ids: ['pred-general-order', 'pred-pooled-t-delta', 'pred-exact-binomial', 'pred-welch', 'pred-two-prop-equal', 'pred-paired-t', 'pred-cov-matrix', 'pred-joint-mgf', 'pred-multinomial', 'pred-mv-hyper', 'pred-convolution', 'pred-unbiased'] },
 ]
 
 export default function RecipeBook() {
@@ -963,6 +964,27 @@ export default function RecipeBook() {
               <br/>Check: <M t="120 \times 0.6 = 72 \geq 5" /> {'✓'}, <M t="120 \times 0.4 = 48 \geq 5" /> {'✓'}, <M t="110 \times 0.527 = 58 \geq 5" /> {'✓'}, <M t="110 \times 0.473 = 52 \geq 5" /> {'✓'}</Step>
             <Step n={3}><M t="Z = \frac{0.600 - 0.527}{\sqrt{\frac{0.6 \times 0.4}{120} + \frac{0.527 \times 0.473}{110}}} = \frac{0.073}{\sqrt{0.002000 + 0.002266}} = \frac{0.073}{0.0653} = 1.12" d /></Step>
             <Step n={4}>Two-tailed: reject if <M t="|z| \geq z_{0.05} = 1.645" />. Since |1.12| &lt; 1.645: <strong>do not reject H{'₀'}</strong>. Insufficient evidence that pass rates differ.</Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-paired-t" title="Paired t-Test (Dependent Samples)" priority={0} points="5–7 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> Reader {'§'}8.6 problems 8.33{'–'}8.35 cover this. Instead of two independent samples, you have <strong>paired observations</strong> (before/after, twin studies, same subject measured twice). Compute the differences <M t="D_i = X_i - Y_i" />, then do a one-sample t-test on the D{'\''}s.</p>
+          <Step n={1}><strong>Compute differences:</strong> <M t="D_i = X_i - Y_i" /> for each pair. You now have a single sample <M t="D_1, \ldots, D_n" />.</Step>
+          <Step n={2}><strong>Hypotheses:</strong> <M t="H_0: \mu_D = 0" /> vs <M t="H_1: \mu_D \neq 0" /> (or &gt; or &lt;).</Step>
+          <Step n={3}><strong>Test statistic:</strong> This is just a one-sample t-test on the D{'\''}s:
+            <M t="T = \frac{\bar{D} - 0}{S_D / \sqrt{n}} \sim t(n-1) \text{ under } H_0" d />
+            where <M t="\bar{D} = \frac{1}{n}\sum D_i" /> and <M t="S_D^2 = \frac{1}{n-1}\sum(D_i - \bar{D})^2" />.</Step>
+          <Step n={4}><strong>When to use:</strong> The key is recognizing <strong>dependent</strong> data. If subjects are measured twice, or items are naturally paired {'→'} paired test. If two separate groups {'→'} two-sample test.</Step>
+          <Step n={5}><strong>Assumptions:</strong> (1) Paired random sample, (2) D{'\''}s are approximately normal (or n {'≥'} 30).</Step>
+          <Warning><strong>Do NOT use a two-sample t-test on paired data!</strong> Pairing reduces variability. Using an independent two-sample test ignores the pairing and loses power.</Warning>
+          <WorkedExample exam="Predicted Question (Reader 8.33–8.35)">
+            <div className="rb-exam-q"><em>A fitness program measures the weight of 8 participants before and after a 6-week program:<br/>Before: 85, 92, 78, 88, 95, 80, 90, 84<br/>After: 82, 89, 76, 85, 90, 78, 86, 81<br/>Test whether the program reduces weight at <M t="\alpha = 5\%" />.</em></div>
+            <Step n={1}><strong>Differences</strong> (Before {'−'} After): 3, 3, 2, 3, 5, 2, 4, 3.
+              <br/><M t="\bar{D} = 25/8 = 3.125" />, <M t="S_D^2 = \frac{\sum(D_i - 3.125)^2}{7} = \frac{5.875}{7} = 0.839" />, <M t="S_D = 0.916" /></Step>
+            <Step n={2}><M t="H_0: \mu_D = 0 \quad\text{vs}\quad H_1: \mu_D > 0,\quad \alpha = 0.05" /></Step>
+            <Step n={3}><M t="T = \frac{3.125 - 0}{0.916/\sqrt{8}} = \frac{3.125}{0.324} = 9.65" /></Step>
+            <Step n={4}>df = 7, <M t="t_{0.05;\,7} = 1.895" />. Since 9.65 {'≥'} 1.895: <strong>reject H{'₀'}</strong>. The program significantly reduces weight.</Step>
           </WorkedExample>
         </Recipe>
 

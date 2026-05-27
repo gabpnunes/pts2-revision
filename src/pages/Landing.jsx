@@ -130,8 +130,8 @@ export default function Landing() {
             <h2 className="cta-title">Recipe Book</h2>
             <p className="cta-desc">Step-by-step recipes for every exam question type. Prioritized by frequency across 6 past exams with predictions for never-before-tested topics.</p>
             <div className="cta-meta">
-              <span><b>35</b> recipes</span>
-              <span><b>5</b> predictions</span>
+              <span><b>42</b> recipes</span>
+              <span><b>12</b> predictions</span>
               <span><b>Priority</b> ranked</span>
             </div>
           </Link>
