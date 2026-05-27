@@ -2190,6 +2190,35 @@ input[type=checkbox]:checked::after {
 }
 .rb-back:hover { color: var(--accent); }
 
+.rb-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  margin-bottom: 12px;
+}
+.rb-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rb-progress-fill {
+  height: 100%;
+  background: var(--ok);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.rb-progress-label {
+  font-size: 11px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.rb-toc-done { color: var(--ok) !important; opacity: 0.7; }
+.rb-toc-check { margin-right: 4px; font-size: 10px; }
+
 .rb-toc {
   display: flex;
   flex-direction: column;
@@ -2295,9 +2324,38 @@ input[type=checkbox]:checked::after {
   transition: border-color 0.2s;
 }
 .rb-recipe:hover { border-color: var(--border-strong); }
+.rb-recipe-done { border-color: rgba(94, 230, 168, 0.25); }
+.rb-recipe-done .rb-recipe-title { color: var(--ink-muted); }
 
 .rb-recipe-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
   margin-bottom: 20px;
+}
+
+.rb-check {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  border-radius: 6px;
+  border: 2px solid var(--border-strong);
+  background: transparent;
+  color: transparent;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.rb-check:hover { border-color: var(--accent); }
+.rb-check-on {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #07080F;
 }
 
 .rb-recipe-title {

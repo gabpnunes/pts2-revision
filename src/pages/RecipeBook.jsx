@@ -46,10 +46,29 @@ function Step({ n, children }) {
   )
 }
 
+function useChecked() {
+  const [checked, setChecked] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('rb-checked') || '{}') } catch { return {} }
+  })
+  const toggle = (id) => setChecked(prev => {
+    const next = { ...prev, [id]: !prev[id] }
+    localStorage.setItem('rb-checked', JSON.stringify(next))
+    return next
+  })
+  return [checked, toggle]
+}
+
+const CheckedCtx = { current: { checked: {}, toggle: () => {} } }
+
 function Recipe({ id, title, priority, points, children }) {
+  const { checked, toggle } = CheckedCtx.current
+  const done = !!checked[id]
   return (
-    <div className="rb-recipe" id={id}>
+    <div className={`rb-recipe ${done ? 'rb-recipe-done' : ''}`} id={id}>
       <div className="rb-recipe-head">
+        <button className={`rb-check ${done ? 'rb-check-on' : ''}`} onClick={() => toggle(id)} aria-label={done ? 'Mark incomplete' : 'Mark complete'}>
+          {done ? '✓' : ''}
+        </button>
         <h3 className="rb-recipe-title">{title}</h3>
         <div className="rb-recipe-meta">
           <Priority level={priority} />
@@ -197,6 +216,10 @@ const sectionGroups = [
 
 export default function RecipeBook() {
   const [activeId, setActiveId] = useState(recipes[0].id)
+  const [checked, toggle] = useChecked()
+  CheckedCtx.current = { checked, toggle }
+  const doneCount = recipes.filter(r => checked[r.id]).length
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => { for (const e of entries) { if (e.isIntersecting) setActiveId(e.target.id) } },
@@ -211,13 +234,17 @@ export default function RecipeBook() {
     <div className="rb-root">
       <nav className="rb-sidebar">
         <Link to="/" className="rb-back">{'←'} Home</Link>
+        <div className="rb-progress">
+          <div className="rb-progress-bar"><div className="rb-progress-fill" style={{ width: `${(doneCount / recipes.length) * 100}%` }} /></div>
+          <span className="rb-progress-label">{doneCount}/{recipes.length} done</span>
+        </div>
         <div className="rb-toc">
           {sectionGroups.map(g => (
             <div key={g.label} className="rb-toc-group">
               <div className="rb-toc-group-label">{g.label}</div>
               {g.ids.map(id => {
                 const r = recipes.find(x => x.id === id)
-                return r ? <button key={id} className={`rb-toc-item ${activeId === id ? 'active' : ''}`} onClick={() => scrollTo(id)}>{r.title}</button> : null
+                return r ? <button key={id} className={`rb-toc-item ${activeId === id ? 'active' : ''} ${checked[id] ? 'rb-toc-done' : ''}`} onClick={() => scrollTo(id)}>{checked[id] && <span className="rb-toc-check">{'✓'}</span>}{r.title}</button> : null
               })}
             </div>
           ))}
