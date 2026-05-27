@@ -204,6 +204,12 @@ const recipes = [
   { id: 'pred-exact-binomial', title: '🔮 Exact Binomial Test' },
   { id: 'pred-welch', title: '🔮 Welch CI (Unequal Variances)' },
   { id: 'pred-two-prop-equal', title: '🔮 Two-Proportion Test (Δ₀ = 0)' },
+  { id: 'pred-cov-matrix', title: '🔮 Covariance Matrix & Multivariate Normal' },
+  { id: 'pred-joint-mgf', title: '🔮 Joint MGF & Finding Moments' },
+  { id: 'pred-multinomial', title: '🔮 Multinomial Distribution' },
+  { id: 'pred-mv-hyper', title: '🔮 Multivariate Hypergeometric' },
+  { id: 'pred-convolution', title: '🔮 Convolution Formula' },
+  { id: 'pred-unbiased', title: '🔮 Unbiased Estimators & E[S²]=σ²' },
 ]
 
 const sectionGroups = [
@@ -211,7 +217,7 @@ const sectionGroups = [
   { label: 'Part B · Transformations', ids: ['mgf-method', 'cdf-method', 'jacobian', 'draw-support', 'order-stats', 'bvn', 'build-stats', 'iterated-exp'] },
   { label: 'Part C · Confidence Intervals', ids: ['ci-mean', 'ci-proportion', 'ci-variance', 'ci-diff-means', 'sample-size'] },
   { label: 'Part D · Hypothesis Testing', ids: ['z-test', 't-test', 'chi-sq-var', 'prop-test', 'two-sample', 'f-test', 'power', 'p-value', 'type-i'] },
-  { label: '🔮 Predictions', ids: ['pred-general-order', 'pred-pooled-t-delta', 'pred-exact-binomial', 'pred-welch', 'pred-two-prop-equal'] },
+  { label: '🔮 Predictions', ids: ['pred-general-order', 'pred-pooled-t-delta', 'pred-exact-binomial', 'pred-welch', 'pred-two-prop-equal', 'pred-cov-matrix', 'pred-joint-mgf', 'pred-multinomial', 'pred-mv-hyper', 'pred-convolution', 'pred-unbiased'] },
 ]
 
 export default function RecipeBook() {
@@ -957,6 +963,129 @@ export default function RecipeBook() {
               <br/>Check: <M t="120 \times 0.6 = 72 \geq 5" /> {'✓'}, <M t="120 \times 0.4 = 48 \geq 5" /> {'✓'}, <M t="110 \times 0.527 = 58 \geq 5" /> {'✓'}, <M t="110 \times 0.473 = 52 \geq 5" /> {'✓'}</Step>
             <Step n={3}><M t="Z = \frac{0.600 - 0.527}{\sqrt{\frac{0.6 \times 0.4}{120} + \frac{0.527 \times 0.473}{110}}} = \frac{0.073}{\sqrt{0.002000 + 0.002266}} = \frac{0.073}{0.0653} = 1.12" d /></Step>
             <Step n={4}>Two-tailed: reject if <M t="|z| \geq z_{0.05} = 1.645" />. Since |1.12| &lt; 1.645: <strong>do not reject H{'₀'}</strong>. Insufficient evidence that pass rates differ.</Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-cov-matrix" title="Covariance Matrix & Multivariate Normal" priority={0} points="4–6 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> The multivariate normal pdf with <M t="\Sigma^{-1}" /> is <strong>on the formula sheet</strong>. The covariance matrix appears in reader {'§'}5.4 and {'§'}5.7. It was on the midterm. The formula <M t="\text{Var}(\mathbf{a}\mathbf{X}^T) = \mathbf{a}\Sigma\mathbf{a}^T" /> connects linear combinations to matrix form.</p>
+          <Step n={1}><strong>Covariance matrix <M t="\Sigma" /> for <M t="(X_1, \ldots, X_k)" />:</strong>
+            <M t="\Sigma = \begin{pmatrix} \sigma_1^2 & \sigma_{12} & \cdots & \sigma_{1k} \\ \sigma_{21} & \sigma_2^2 & \cdots & \sigma_{2k} \\ \vdots & \vdots & \ddots & \vdots \\ \sigma_{k1} & \sigma_{k2} & \cdots & \sigma_k^2 \end{pmatrix}" d />
+            where <M t="\sigma_{ij} = \text{Cov}(X_i, X_j)" /> and <M t="\sigma_{ii} = \text{Var}(X_i)" />.</Step>
+          <Step n={2}><strong>Multivariate normal pdf:</strong>
+            <M t="f_{\vec{X}}(\vec{x}) = \frac{1}{\sqrt{(2\pi)^k |\Sigma|}}\,\exp\!\left[-\tfrac{1}{2}(\vec{x}-\vec{\mu})^T \Sigma^{-1}(\vec{x}-\vec{\mu})\right]" d /></Step>
+          <Step n={3}><strong>Variance of a linear combination:</strong> For <M t="W = a_1 X_1 + \ldots + a_k X_k" />:
+            <M t="\text{Var}(W) = \mathbf{a}\,\Sigma\,\mathbf{a}^T = \sum_i a_i^2 \sigma_i^2 + 2\sum_{i<j} a_i a_j \sigma_{ij}" d /></Step>
+          <Step n={4}><strong>For bivariate case (k=2):</strong> <M t="\Sigma = \begin{pmatrix} \sigma_X^2 & \rho\sigma_X\sigma_Y \\ \rho\sigma_X\sigma_Y & \sigma_Y^2 \end{pmatrix}" />, <M t="|\Sigma| = \sigma_X^2\sigma_Y^2(1-\rho^2)" /></Step>
+          <Warning>If asked to "write down the covariance matrix": compute <M t="\text{Var}(X_i)" /> and <M t="\text{Cov}(X_i,X_j)" /> for each pair, then assemble the matrix. It{'\''}s symmetric: <M t="\sigma_{ij} = \sigma_{ji}" />.</Warning>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>Let <M t="(X,Y)" /> have BVN distribution with <M t="\mu_X=1, \mu_Y=3, \sigma_X=2, \sigma_Y=4, \rho=0.5" />.<br/>(a) Write down the covariance matrix <M t="\Sigma" />.<br/>(b) Find <M t="\text{Var}(2X - Y + 3)" />.</em></div>
+            <Step n={1}><strong>(a)</strong> <M t="\text{Cov}(X,Y) = \rho\sigma_X\sigma_Y = 0.5 \times 2 \times 4 = 4" />
+              <M t="\Sigma = \begin{pmatrix} 4 & 4 \\ 4 & 16 \end{pmatrix}" d /></Step>
+            <Step n={2}><strong>(b)</strong> <M t="W = 2X - Y + 3" />, so <M t="\mathbf{a} = (2, -1)" />:
+              <M t="\text{Var}(W) = 4(4) + 1(16) + 2(2)(-1)(4) = 16 + 16 - 16 = 16" d /></Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-joint-mgf" title="Joint MGF & Finding Moments by Differentiation" priority={0} points="3–5 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> Reader {'§'}5.6 teaches extracting E[X], E[XY], Cov(X,Y) from the joint MGF by partial differentiation. The joint MGF of BVN is on the formula sheet. Never tested as a standalone question.</p>
+          <Step n={1}><strong>Joint MGF definition:</strong>
+            <M t="M_{X,Y}(t_1, t_2) = E[e^{t_1 X + t_2 Y}]" d /></Step>
+          <Step n={2}><strong>Extract moments by differentiation:</strong>
+            <br/>{'•'} <M t="E[X] = \frac{\partial}{\partial t_1} M_{X,Y}(t_1, t_2)\Big|_{t_1=t_2=0}" />
+            <br/>{'•'} <M t="E[Y] = \frac{\partial}{\partial t_2} M_{X,Y}(t_1, t_2)\Big|_{t_1=t_2=0}" />
+            <br/>{'•'} <M t="E[XY] = \frac{\partial^2}{\partial t_1 \partial t_2} M_{X,Y}(t_1, t_2)\Big|_{t_1=t_2=0}" />
+            <br/>{'•'} <M t="E[X^2] = \frac{\partial^2}{\partial t_1^2} M_{X,Y}(t_1, t_2)\Big|_{t_1=t_2=0}" /></Step>
+          <Step n={3}><strong>Get marginal MGFs:</strong> <M t="M_X(t) = M_{X,Y}(t, 0)" /> and <M t="M_Y(t) = M_{X,Y}(0, t)" /></Step>
+          <Step n={4}><strong>Independence test via MGF:</strong> X, Y independent <M t="\iff M_{X,Y}(t_1,t_2) = M_X(t_1) \cdot M_Y(t_2)" /></Step>
+          <Tip><strong>BVN joint MGF:</strong> <M t="M_{X,Y}(t_1,t_2) = \exp\!\left[\mu_X t_1 + \mu_Y t_2 + \tfrac{1}{2}(\sigma_X^2 t_1^2 + \sigma_Y^2 t_2^2 + 2\rho\sigma_X\sigma_Y t_1 t_2)\right]" /></Tip>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>The joint MGF of (X,Y) is <M t="M_{X,Y}(t_1,t_2) = \frac{1}{(1-t_1)(1-t_2)(1-t_1-t_2)}" /> for <M t="t_1+t_2 < 1" />.<br/>Find E[X], E[Y], E[XY], and Cov(X,Y).</em></div>
+            <Step n={1}><M t="\frac{\partial M}{\partial t_1} = \frac{1}{(1-t_1)^2(1-t_2)(1-t_1-t_2)} + \frac{1}{(1-t_1)(1-t_2)(1-t_1-t_2)^2}" />
+              <br/>At <M t="t_1=t_2=0" />: <M t="E[X] = 1 + 1 = 2" /></Step>
+            <Step n={2}>By symmetry: <M t="E[Y] = 2" /></Step>
+            <Step n={3}><M t="\frac{\partial^2 M}{\partial t_1 \partial t_2}\Big|_{0,0}" />: differentiate again w.r.t. <M t="t_2" /> and evaluate. Result: <M t="E[XY] = 5" /></Step>
+            <Step n={4}><M t="\text{Cov}(X,Y) = E[XY] - E[X]E[Y] = 5 - 4 = 1" /></Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-multinomial" title="Multinomial Distribution" priority={0} points="3–5 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> The multinomial PMF is <strong>on the formula sheet</strong> (first formula!). Reader {'§'}5.1 covers it. It extends the Binomial to k+1 categories. Never tested on any of the 6 exams.</p>
+          <Step n={1}><strong>Setup:</strong> n independent trials, each has k+1 possible outcomes with probabilities <M t="p_1, \ldots, p_{k+1}" /> where <M t="\sum p_i = 1" />.</Step>
+          <Step n={2}><strong>PMF:</strong> <M t="X_i" /> = count of outcome i:
+            <M t="f(x_1,\ldots,x_k) = \frac{n!}{x_1!\,x_2!\,\cdots\,x_{k+1}!}\,p_1^{x_1}\,p_2^{x_2}\cdots p_{k+1}^{x_{k+1}}" d />
+            where <M t="x_{k+1} = n - \sum_{i=1}^{k} x_i" />.</Step>
+          <Step n={3}><strong>Key property:</strong> Each marginal is Binomial: <M t="X_j \sim \text{Bin}(n, p_j)" />.
+            <br/>So <M t="E[X_j] = np_j" /> and <M t="\text{Var}(X_j) = np_j(1-p_j)" /></Step>
+          <Step n={4}><strong>Covariance:</strong> <M t="\text{Cov}(X_i, X_j) = -np_i p_j" /> for <M t="i \neq j" /> (always negative!).</Step>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>A die is rolled 180 times. Let <M t="X_1" /> = number of 1{'\''}s, <M t="X_2" /> = number of 2{'\''}s, <M t="X_3" /> = number of other outcomes. Find <M t="P(X_1=30, X_2=28)" /> and <M t="\text{Cov}(X_1, X_2)" />.</em></div>
+            <Step n={1}><M t="n=180" />, <M t="p_1=p_2=1/6" />, <M t="p_3=4/6" />. <M t="x_3 = 180-30-28 = 122" />.</Step>
+            <Step n={2}><M t="P = \frac{180!}{30!\,28!\,122!}\left(\frac{1}{6}\right)^{30}\left(\frac{1}{6}\right)^{28}\left(\frac{4}{6}\right)^{122}" /></Step>
+            <Step n={3}><M t="\text{Cov}(X_1,X_2) = -np_1 p_2 = -180 \cdot \frac{1}{6} \cdot \frac{1}{6} = -5" /></Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-mv-hyper" title="Multivariate Hypergeometric Distribution" priority={0} points="3–4 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> The multivariate hypergeometric PMF is <strong>on the formula sheet</strong> (second formula!). Reader {'§'}5.1 covers it. It extends the Hypergeometric to k+1 categories. Sampling without replacement from a categorized population.</p>
+          <Step n={1}><strong>Setup:</strong> Population of N items in k+1 categories with <M t="M_1, \ldots, M_{k+1}" /> items each. Draw n items <strong>without replacement</strong>.</Step>
+          <Step n={2}><strong>PMF:</strong>
+            <M t="f(x_1,\ldots,x_k) = \frac{\binom{M_1}{x_1}\binom{M_2}{x_2}\cdots\binom{M_{k+1}}{x_{k+1}}}{\binom{N}{n}}" d />
+            where <M t="x_{k+1} = n - \sum x_i" /> and <M t="M_{k+1} = N - \sum M_i" />.</Step>
+          <Step n={3}><strong>Marginals:</strong> Each <M t="X_j \sim \text{Hyp}(n, M_j, N)" /> with <M t="E[X_j] = \frac{nM_j}{N}" />.</Step>
+          <Tip>This is the "Multinomial but without replacement." If n/N is small, it approximates the Multinomial.</Tip>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>A box contains 20 balls: 8 red, 7 blue, 5 green. You draw 6 without replacement. Find <M t="P(X_R=3, X_B=2, X_G=1)" />.</em></div>
+            <Step n={1}><M t="N=20,\; n=6,\; M_R=8,\; M_B=7,\; M_G=5" />.</Step>
+            <Step n={2}><M t="P = \frac{\binom{8}{3}\binom{7}{2}\binom{5}{1}}{\binom{20}{6}} = \frac{56 \times 21 \times 5}{38760} = \frac{5880}{38760} = 0.1517" /></Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-convolution" title="Convolution Formula for Sums" priority={0} points="4–5 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> Reader {'§'}6.2 teaches the convolution as an alternative to the MGF method for finding the pdf of <M t="S = X + Y" />. When neither CDF nor MGF works cleanly, convolution is the go-to.</p>
+          <Step n={1}><strong>Formula:</strong> For independent continuous X, Y with pdfs <M t="f_X" /> and <M t="f_Y" />:
+            <M t="f_S(s) = \int_{-\infty}^{\infty} f_X(t)\,f_Y(s-t)\,dt" d />
+            or equivalently <M t="f_S(s) = \int_{-\infty}^{\infty} f_X(s-u)\,f_Y(u)\,du" /></Step>
+          <Step n={2}><strong>Limits:</strong> The integrand is nonzero only where <strong>both</strong> <M t="f_X(t) > 0" /> and <M t="f_Y(s-t) > 0" />. Use the supports to determine limits.</Step>
+          <Step n={3}><strong>When to use:</strong> When you need the pdf of a sum but the MGF doesn{'\''}t simplify to a recognizable form (e.g., sum of Uniforms, or non-identical distributions).</Step>
+          <Warning>The integration limits depend on s! You often get a <strong>piecewise</strong> answer.</Warning>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>Let <M t="X \sim \text{Unif}(0,1)" /> and <M t="Y \sim \text{Unif}(0,1)" /> be independent. Find the pdf of <M t="S = X + Y" /> using convolution.</em></div>
+            <Step n={1}><M t="f_S(s) = \int_{-\infty}^{\infty} f_X(t)\,f_Y(s-t)\,dt = \int f_X(t)\,f_Y(s-t)\,dt" />
+              <br/>Need <M t="0 \leq t \leq 1" /> AND <M t="0 \leq s-t \leq 1" />, i.e., <M t="s-1 \leq t \leq s" />.</Step>
+            <Step n={2}><strong>Case 1: <M t="0 \leq s \leq 1" /></strong>: limits are <M t="0 \leq t \leq s" />.
+              <M t="f_S(s) = \int_0^s 1 \cdot 1\, dt = s" d /></Step>
+            <Step n={3}><strong>Case 2: <M t="1 < s \leq 2" /></strong>: limits are <M t="s-1 \leq t \leq 1" />.
+              <M t="f_S(s) = \int_{s-1}^1 1\, dt = 2 - s" d /></Step>
+            <Step n={4}><strong>Answer:</strong> <M t="f_S(s) = \begin{cases} s & 0 \leq s \leq 1 \\ 2-s & 1 < s \leq 2 \end{cases}" d />
+              This is the <strong>triangular distribution</strong> on (0, 2).</Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-unbiased" title="Unbiased Estimators & E[S²] = σ²" priority={0} points="3–6 pts">
+          <Prediction likelihood="high" />
+          <p><strong>Why it{'\''}s likely:</strong> Reader {'§'}7.2 covers unbiased estimation. The result <M t="E[S^2] = \sigma^2" /> (Theorem 6.10) is fundamental. Appeared on 2023 Q3c (constructing unbiased estimator). Also tested on midterm.</p>
+          <Step n={1}><strong>Unbiased:</strong> An estimator <M t="\hat{\theta}" /> is <strong>unbiased</strong> for <M t="\theta" /> if <M t="E[\hat{\theta}] = \theta" />.</Step>
+          <Step n={2}><strong>Key unbiased estimators:</strong>
+            <br/>{'•'} <M t="E[\bar{X}] = \mu" /> {'→'} <M t="\bar{X}" /> is unbiased for <M t="\mu" />
+            <br/>{'•'} <M t="E[S^2] = \sigma^2" /> {'→'} <M t="S^2 = \frac{1}{n-1}\sum(X_i - \bar{X})^2" /> is unbiased for <M t="\sigma^2" />
+            <br/>{'•'} <M t="E[\hat{P}] = p" /> {'→'} <M t="\hat{P} = X/n" /> is unbiased for p
+            <br/>{'•'} <M t="E[S] \neq \sigma" /> {'→'} S is <strong>biased</strong> for {'σ'}!</Step>
+          <Step n={3}><strong>Computing S{'²'} from raw data:</strong>
+            <M t="S^2 = \frac{1}{n-1}\left(\sum X_i^2 - n\bar{X}^2\right) = \frac{\sum X_i^2 - (\sum X_i)^2/n}{n-1}" d /></Step>
+          <Step n={4}><strong>Constructing an unbiased estimator:</strong> If <M t="E[g(X)] = c\theta" />, then <M t="\hat{\theta} = g(X)/c" /> is unbiased.</Step>
+          <Warning>The <M t="n-1" /> in <M t="S^2" /> is what makes it unbiased. If you divide by n instead, you get a <strong>biased</strong> estimator. This is why degrees of freedom = n{'−'}1.</Warning>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>Let <M t="X_1, \ldots, X_n" /> be a random sample from <M t="\text{Exp}(\lambda)" />. <br/>(a) Show that <M t="\bar{X}" /> is an unbiased estimator for <M t="1/\lambda" />.<br/>(b) Construct an unbiased estimator for <M t="\lambda" /> using <M t="S^2" /> and <M t="\bar{X}" />.</em></div>
+            <Step n={1}><strong>(a)</strong> <M t="E[\bar{X}] = E[X_1] = 1/\lambda" />. Since <M t="E[\bar{X}] = 1/\lambda" />, <M t="\bar{X}" /> is unbiased for <M t="1/\lambda" />.</Step>
+            <Step n={2}><strong>(b)</strong> For Exp({'λ'}): <M t="\text{Var}(X) = 1/\lambda^2" /> and <M t="E[X] = 1/\lambda" />, so <M t="E[X]^2 = 1/\lambda^2 = \text{Var}(X)" />.
+              <br/>Since <M t="E[S^2] = \sigma^2 = 1/\lambda^2" /> and <M t="E[\bar{X}^2] = \text{Var}(\bar{X}) + (E[\bar{X}])^2 = \frac{1}{n\lambda^2} + \frac{1}{\lambda^2}" />:
+              <br/>We know <M t="E[\bar{X}] = 1/\lambda" />, so <M t="1/\bar{X}" /> estimates {'λ'} but is <strong>biased</strong>.
+              <br/>Instead: <M t="E[S^2] = 1/\lambda^2" /> and <M t="E[\bar{X}^2]" /> involves {'λ'}. A clean unbiased estimator for <M t="\lambda" /> is harder {'—'} but <M t="\bar{X}" /> being unbiased for <M t="1/\lambda" /> is the key result to show.</Step>
           </WorkedExample>
         </Recipe>
 
