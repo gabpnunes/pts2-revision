@@ -2515,6 +2515,19 @@ input[type=checkbox]:checked::after {
 .rb-worked-body p { margin: 0 0 8px; }
 .rb-worked-body .rb-step { margin: 10px 0; }
 
+.rb-exam-q {
+  margin: 8px 0 12px;
+  padding: 10px 14px;
+  background: var(--accent-soft-2);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  font-style: italic;
+}
+.rb-exam-q .katex { font-style: normal; }
+
 .rb-footer {
   margin-top: 48px;
   padding-top: 24px;
