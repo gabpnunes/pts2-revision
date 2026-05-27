@@ -13,6 +13,16 @@ function M({ t, d }) {
   return d ? <div ref={ref} className="m-block" /> : <span ref={ref} className="m-inline" />
 }
 
+function Prediction({ likelihood }) {
+  const labels = { high: 'HIGH LIKELIHOOD', medium: 'MEDIUM-HIGH' }
+  const colors = { high: '#ff4d4d', medium: '#ff8c42' }
+  return (
+    <span className="rb-priority" style={{ '--pri-color': colors[likelihood] || '#ff8c42' }}>
+      <span className="rb-priority-label">🔮 {labels[likelihood] || likelihood}</span>
+    </span>
+  )
+}
+
 function Priority({ level }) {
   const labels = { 5: 'EVERY EXAM', 4: 'MOST EXAMS', 3: 'FREQUENT', 2: 'OCCASIONAL', 1: 'RARE' }
   const colors = { 5: '#ff4d4d', 4: '#ff8c42', 3: '#ffd166', 2: '#8B92FF', 1: '#666' }
@@ -170,6 +180,11 @@ const recipes = [
   { id: 'power', title: 'Power & Type II Error' },
   { id: 'p-value', title: 'p-Value Method' },
   { id: 'type-i', title: 'Type I Error Computation' },
+  { id: 'pred-general-order', title: '🔮 General & Joint Order Statistics' },
+  { id: 'pred-pooled-t-delta', title: '🔮 Pooled t-Test with Δ₀ ≠ 0' },
+  { id: 'pred-exact-binomial', title: '🔮 Exact Binomial Test' },
+  { id: 'pred-welch', title: '🔮 Welch CI (Unequal Variances)' },
+  { id: 'pred-two-prop-equal', title: '🔮 Two-Proportion Test (Δ₀ = 0)' },
 ]
 
 const sectionGroups = [
@@ -177,6 +192,7 @@ const sectionGroups = [
   { label: 'Part B · Transformations', ids: ['mgf-method', 'cdf-method', 'jacobian', 'draw-support', 'order-stats', 'bvn', 'build-stats', 'iterated-exp'] },
   { label: 'Part C · Confidence Intervals', ids: ['ci-mean', 'ci-proportion', 'ci-variance', 'ci-diff-means', 'sample-size'] },
   { label: 'Part D · Hypothesis Testing', ids: ['z-test', 't-test', 'chi-sq-var', 'prop-test', 'two-sample', 'f-test', 'power', 'p-value', 'type-i'] },
+  { label: '🔮 Predictions', ids: ['pred-general-order', 'pred-pooled-t-delta', 'pred-exact-binomial', 'pred-welch', 'pred-two-prop-equal'] },
 ]
 
 export default function RecipeBook() {
@@ -792,6 +808,128 @@ export default function RecipeBook() {
             <Step n={1}>Under H{'₀'}: X {'⊥'} Y, both N(0,1), so <M t="W = X+Y \sim N(0,2)" />.</Step>
             <Step n={2}><M t="\alpha = P(|W| > 3) = 2P(W > 3) = 2P\!\left(Z > \frac{3}{\sqrt{2}}\right) = 2P(Z > 2.121)" /></Step>
             <Step n={3}><M t="= 2(1 - \Phi(2.12)) = 2(1 - 0.9830) = 2 \times 0.0170 = 0.034" /></Step>
+          </WorkedExample>
+        </Recipe>
+
+        {/* ═══════════ PREDICTIONS ═══════════ */}
+        <div className="rb-part-divider rb-pred-divider">{'🔮'} Predictions {'·'} Never-Before-Tested Question Types</div>
+
+        <div className="rb-pred-banner">
+          <p><strong>These question types are on the formula sheet and in lectures/tutorials but have NEVER appeared on any of the 6 past exams.</strong> They are the most likely wildcards for tomorrow.</p>
+        </div>
+
+        <Recipe id="pred-general-order" title="General & Joint Order Statistics" priority={0} points="4–6 pts">
+          <Prediction likelihood="high" />
+          <p><strong>Why it{'\''}s likely:</strong> The formula sheet has the full general order statistic formula <M t="f_{Y_k}(y)" /> AND the joint order statistic formula <M t="f_{Y_i,Y_j}(y_i,y_j)" />, but every exam has only tested min/max. The median or range is overdue.</p>
+          <Step n={1}><strong>k-th order statistic:</strong> For iid sample of size n with pdf f and CDF F:
+            <M t="f_{Y_k}(y) = \frac{n!}{(k-1)!(n-k)!}\,[F(y)]^{k-1}\,[1-F(y)]^{n-k}\,f(y)" d /></Step>
+          <Step n={2}><strong>Joint order statistic</strong> <M t="(Y_i, Y_j)" /> with <M t="i < j" />:
+            <M t="f_{Y_i,Y_j}(y_i,y_j) = \frac{n!}{(i\!-\!1)!(j\!-\!i\!-\!1)!(n\!-\!j)!}\,f(y_i)f(y_j)\,[F(y_i)]^{i-1}[F(y_j)-F(y_i)]^{j-i-1}[1-F(y_j)]^{n-j}" d />
+            for <M t="y_i < y_j" />.</Step>
+          <Step n={3}><strong>Special cases:</strong>
+            <br/>{'•'} <strong>Median:</strong> k = (n+1)/2 for odd n
+            <br/>{'•'} <strong>Range:</strong> <M t="R = Y_n - Y_1" />, find via joint pdf of <M t="(Y_1, Y_n)" />
+            <br/>{'•'} <strong>Min & Max joint:</strong> i=1, j=n simplifies nicely</Step>
+          <Step n={4}><strong>After applying the formula,</strong> simplify and state the support. For Uniform(0,1): <M t="F(y)=y" />, <M t="f(y)=1" />, so the formula reduces to powers of y.</Step>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>Let <M t="X_1, \ldots, X_5" /> be a random sample from Uniform(0, 1).<br/>(a) Find the pdf of the sample median <M t="Y_3" />.<br/>(b) Find the joint pdf of <M t="(Y_1, Y_5)" /> and compute <M t="E[Y_5 - Y_1]" />.</em></div>
+            <Step n={1}><strong>(a) Median:</strong> n=5, k=3, <M t="F(y)=y" />, <M t="f(y)=1" />:
+              <M t="f_{Y_3}(y) = \frac{5!}{2!\,2!}\,y^2\,(1-y)^2 \cdot 1 = 30\,y^2(1-y)^2" d />
+              for <M t="0 < y < 1" />.</Step>
+            <Step n={2}><strong>(b) Joint (Y{'₁'}, Y{'₅'}):</strong> i=1, j=5, n=5:
+              <M t="f_{Y_1,Y_5}(y_1,y_5) = \frac{5!}{0!\,3!\,0!}\cdot 1 \cdot 1 \cdot 1 \cdot (y_5-y_1)^3 \cdot 1 = 20(y_5-y_1)^3" d />
+              for <M t="0 < y_1 < y_5 < 1" />.</Step>
+            <Step n={3}><strong>E[Range]:</strong>
+              <M t="E[Y_5-Y_1] = 20\int_0^1\!\int_0^{y_5}(y_5-y_1)^4\,dy_1\,dy_5 = 20\int_0^1\frac{y_5^5}{5}\,dy_5 = 4\cdot\frac{1}{6} = \frac{2}{3}" d /></Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-pooled-t-delta" title="Pooled Two-Sample t-Test with Δ₀ ≠ 0" priority={0} points="5–7 pts">
+          <Prediction likelihood="high" />
+          <p><strong>Why it{'\''}s likely:</strong> Lecture 12 dedicates a full example to this (pay gap, {'Δ₀'}=10). The formula sheet has the pooled CI. Past exams tested the CI version but never a full 6-step hypothesis test with {'Δ₀'} {'≠'} 0 using pooled variance.</p>
+          <Step n={1}><strong>Hypotheses:</strong> <M t="H_0: \mu_1 - \mu_2 = \Delta_0" /> vs <M t="H_1: \mu_1 - \mu_2 > \Delta_0" /> (or &lt; or {'≠'}).</Step>
+          <Step n={2}><strong>Pooled variance:</strong> <M t="s_p^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2}" d /></Step>
+          <Step n={3}><strong>Test statistic:</strong>
+            <M t="T = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{s_p\sqrt{1/n_1 + 1/n_2}} \sim t(n_1+n_2-2) \text{ under } H_0" d /></Step>
+          <Step n={4}><strong>Assumptions:</strong> (1) Two independent random samples, (2) Both populations normal, (3) <M t="\sigma_1 = \sigma_2" /> (unknown). Verify (3) with F-test first if asked.</Step>
+          <Step n={5}><strong>Rejection region from t-table</strong> with df = <M t="n_1 + n_2 - 2" />.</Step>
+          <Warning>The <M t="\Delta_0" /> goes in the <strong>numerator</strong>, not the denominator. Common mistake: forgetting to subtract <M t="\Delta_0" /> from <M t="\bar{X}_1 - \bar{X}_2" />.</Warning>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>A company tests whether a new training program improves employee productivity by more than 5 units. Old method: <M t="n_1=16" />, <M t="\bar{x}_1=47.3" />, <M t="s_1=8.2" />. New method: <M t="n_2=21" />, <M t="\bar{x}_2=55.8" />, <M t="s_2=7.5" />. Assume equal variances and normality. Test at <M t="\alpha = 5\%" />.</em></div>
+            <Step n={1}><M t="H_0: \mu_2 - \mu_1 = 5 \quad\text{vs}\quad H_1: \mu_2 - \mu_1 > 5,\quad \alpha = 0.05" /></Step>
+            <Step n={2}><M t="s_p^2 = \frac{15 \times 67.24 + 20 \times 56.25}{35} = \frac{1008.6 + 1125.0}{35} = \frac{2133.6}{35} = 60.96" /></Step>
+            <Step n={3}><M t="T = \frac{(55.8 - 47.3) - 5}{\sqrt{60.96}\sqrt{1/16 + 1/21}} = \frac{3.5}{7.808 \times 0.333} = \frac{3.5}{2.598} = 1.35" /></Step>
+            <Step n={4}>df = 35. <M t="t_{0.05;\,35} \approx 1.690" />. Since 1.35 &lt; 1.690: <strong>not in rejection region</strong>.</Step>
+            <Step n={5}><strong>Conclusion:</strong> Do not reject H{'₀'}. Insufficient evidence that the new program improves productivity by more than 5 units.</Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-exact-binomial" title="Exact Binomial Test (Small Sample Proportion)" priority={0} points="4–6 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> Lecture 12 explicitly teaches this as the small-sample alternative to the z-test for proportions. The darts example (n=25, X=17) is worked in full. Every past exam used the z-approximation {'—'} the exact test has never appeared.</p>
+          <Step n={1}><strong>When to use:</strong> When <M t="n\hat{p} < 5" /> or <M t="n(1-\hat{p}) < 5" />, the normal approximation fails. Use the exact binomial.</Step>
+          <Step n={2}><strong>Test statistic:</strong> <M t="X = \text{number of successes} \sim \text{Bin}(n, p_0) \text{ under } H_0" d />
+            (X itself is the test statistic, not a z-score!)</Step>
+          <Step n={3}><strong>p-value computation:</strong>
+            <br/>{'•'} Right-tailed (<M t="H_1: p > p_0" />): <M t="p\text{-value} = P(X \geq x_{\text{obs}}) = \sum_{k=x_{\text{obs}}}^{n} \binom{n}{k} p_0^k (1-p_0)^{n-k}" />
+            <br/>{'•'} Left-tailed (<M t="H_1: p < p_0" />): <M t="p\text{-value} = P(X \leq x_{\text{obs}}) = \sum_{k=0}^{x_{\text{obs}}} \binom{n}{k} p_0^k (1-p_0)^{n-k}" /></Step>
+          <Step n={4}><strong>Decision:</strong> If p-value {'≤'} {'α'} {'→'} reject H{'₀'}.</Step>
+          <Warning>You must compute the binomial probabilities <strong>term by term</strong> and sum them. Show each term for full marks.</Warning>
+          <Tip>The complement can save work: <M t="P(X \geq k) = 1 - P(X \leq k-1)" />. Use whichever side has fewer terms.</Tip>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>A dart player claims to hit the bullseye more than 60% of the time. In 10 throws, they hit 8. Test this claim at <M t="\alpha = 5\%" />. Note: <M t="n(1-p_0) = 10 \times 0.4 = 4 < 5" />, so use the exact binomial test.</em></div>
+            <Step n={1}><M t="H_0: p = 0.6 \quad\text{vs}\quad H_1: p > 0.6,\quad \alpha = 0.05" /></Step>
+            <Step n={2}>Test statistic: <M t="X \sim \text{Bin}(10, 0.6)" /> under H{'₀'}. Observed: x = 8.</Step>
+            <Step n={3}>p-value = <M t="P(X \geq 8) = P(X=8) + P(X=9) + P(X=10)" />
+              <br/><M t="P(X=8) = \binom{10}{8}(0.6)^8(0.4)^2 = 45 \times 0.01680 \times 0.16 = 0.1209" />
+              <br/><M t="P(X=9) = \binom{10}{9}(0.6)^9(0.4)^1 = 10 \times 0.01008 \times 0.4 = 0.0403" />
+              <br/><M t="P(X=10) = (0.6)^{10} = 0.00605" />
+              <br/>p-value = 0.1209 + 0.0403 + 0.0061 = <strong>0.1673</strong></Step>
+            <Step n={4}>Since 0.1673 &gt; 0.05 = {'α'}: <strong>do not reject H{'₀'}</strong>. Insufficient evidence the bullseye rate exceeds 60%.</Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-welch" title="Welch CI for Difference in Means (Unequal Variances)" priority={0} points="5–7 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> The Welch formula with its complex df calculation is <strong>explicitly on the formula sheet</strong> but has never been tested. Every past exam that tested CI for difference in means used either known {'σ'} or assumed equal variances. This is the natural next step.</p>
+          <Step n={1}><strong>When to use:</strong> {'σ₁'}, {'σ₂'} unknown and <strong>not assumed equal</strong> (e.g., F-test rejected, or problem says "do not assume equal variances").</Step>
+          <Step n={2}><strong>Compute the Welch degrees of freedom:</strong>
+            <M t="\nu = \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-1}}" d />
+            <strong>Round down</strong> to the nearest integer.</Step>
+          <Step n={3}><strong>CI formula:</strong>
+            <M t="(\bar{x}_1 - \bar{x}_2) \pm t_{\alpha/2,\,\nu} \cdot \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}" d /></Step>
+          <Step n={4}><strong>Interpret:</strong> If 0 {'∉'} CI {'→'} means differ significantly.</Step>
+          <Warning>The Welch df formula is messy {'—'} label each intermediate calculation clearly. <M t="s_1^2/n_1" /> and <M t="s_2^2/n_2" /> appear in both numerator and denominator.</Warning>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>Brand A batteries: <M t="n_A=10" />, <M t="\bar{x}_A=48.2" /> hrs, <M t="s_A=4.5" />. Brand B: <M t="n_B=15" />, <M t="\bar{x}_B=44.8" /> hrs, <M t="s_B=7.1" />. Variances may differ. Construct a 95% CI for <M t="\mu_A - \mu_B" />.</em></div>
+            <Step n={1}><strong>Intermediate values:</strong>
+              <br/><M t="s_A^2/n_A = 20.25/10 = 2.025" />, <M t="s_B^2/n_B = 50.41/15 = 3.361" /></Step>
+            <Step n={2}><strong>Welch df:</strong>
+              <M t="\nu = \frac{(2.025 + 3.361)^2}{\frac{(2.025)^2}{9} + \frac{(3.361)^2}{14}} = \frac{(5.386)^2}{\frac{4.101}{9} + \frac{11.296}{14}} = \frac{29.01}{0.456 + 0.807} = \frac{29.01}{1.263} = 22.97" d />
+              Round down: <M t="\nu = 22" />.</Step>
+            <Step n={3}><M t="t_{0.025;\,22} = 2.074" />, <M t="SE = \sqrt{5.386} = 2.321" />
+              <M t="48.2 - 44.8 \pm 2.074 \times 2.321 = 3.4 \pm 4.81" d />
+              <strong>CI: ({'−'}1.41, 8.21)</strong></Step>
+            <Step n={4}>Since 0 {'∈'} CI: cannot conclude mean lifetimes differ at 95% level.</Step>
+          </WorkedExample>
+        </Recipe>
+
+        <Recipe id="pred-two-prop-equal" title="Two-Proportion Test with Δ₀ = 0" priority={0} points="5–6 pts">
+          <Prediction likelihood="medium" />
+          <p><strong>Why it{'\''}s likely:</strong> The resit 2025 tested {'Δ₀'} = 0.1 for proportions. A simpler version testing <M t="p_1 = p_2" /> (equality) has never appeared as a full 6-step test. Tutorial 12 exercise 8.24 practices exactly this.</p>
+          <Step n={1}><strong>Hypotheses:</strong> <M t="H_0: p_1 - p_2 = 0" /> vs <M t="H_1: p_1 - p_2 \neq 0" /> (or one-sided).</Step>
+          <Step n={2}><strong>Test statistic (same form as {'Δ₀'} {'≠'} 0):</strong>
+            <M t="Z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}}" d /></Step>
+          <Step n={3}><strong>Check conditions:</strong> <M t="n_i\hat{p}_i \geq 5" /> and <M t="n_i(1-\hat{p}_i) \geq 5" /> for <strong>each</strong> sample.</Step>
+          <Step n={4}>Standard 6-step procedure. State assumptions: independent samples, normal approximation valid.</Step>
+          <Tip>When <M t="\Delta_0 = 0" />, the numerator simplifies to just <M t="\hat{p}_1 - \hat{p}_2" />. Much cleaner than the {'Δ₀'} {'≠'} 0 case.</Tip>
+          <WorkedExample exam="Predicted Question">
+            <div className="rb-exam-q"><em>A university compares pass rates: morning section: 72 out of 120 passed. Evening section: 58 out of 110 passed. Test whether pass rates differ at <M t="\alpha = 10\%" />.</em></div>
+            <Step n={1}><M t="H_0: p_M - p_E = 0 \quad\text{vs}\quad H_1: p_M - p_E \neq 0,\quad \alpha = 0.10" /></Step>
+            <Step n={2}><M t="\hat{p}_M = 72/120 = 0.600" />, <M t="\hat{p}_E = 58/110 = 0.527" />
+              <br/>Check: <M t="120 \times 0.6 = 72 \geq 5" /> {'✓'}, <M t="120 \times 0.4 = 48 \geq 5" /> {'✓'}, <M t="110 \times 0.527 = 58 \geq 5" /> {'✓'}, <M t="110 \times 0.473 = 52 \geq 5" /> {'✓'}</Step>
+            <Step n={3}><M t="Z = \frac{0.600 - 0.527}{\sqrt{\frac{0.6 \times 0.4}{120} + \frac{0.527 \times 0.473}{110}}} = \frac{0.073}{\sqrt{0.002000 + 0.002266}} = \frac{0.073}{0.0653} = 1.12" d /></Step>
+            <Step n={4}>Two-tailed: reject if <M t="|z| \geq z_{0.05} = 1.645" />. Since |1.12| &lt; 1.645: <strong>do not reject H{'₀'}</strong>. Insufficient evidence that pass rates differ.</Step>
           </WorkedExample>
         </Recipe>
 

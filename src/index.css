@@ -2528,6 +2528,21 @@ input[type=checkbox]:checked::after {
 }
 .rb-exam-q .katex { font-style: normal; }
 
+.rb-pred-divider {
+  background: linear-gradient(90deg, rgba(139, 146, 255, 0.15), transparent);
+  border-color: var(--accent);
+}
+.rb-pred-banner {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
 .rb-footer {
   margin-top: 48px;
   padding-top: 24px;
@@ -2562,3 +2577,128 @@ input[type=checkbox]:checked::after {
   .rb-diagram { padding: 12px; }
   .rb-diagram-content { font-size: 10.5px; }
 }
+
+/* ═══════════ CHECKLIST PAGE ═══════════ */
+.ck-root {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+.ck-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border);
+}
+.ck-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+.ck-header { margin-bottom: 40px; }
+.ck-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--ink-strong);
+  margin: 0 0 10px;
+}
+.ck-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.ck-subtitle {
+  font-size: 15px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.ck-section {
+  margin-bottom: 32px;
+}
+.ck-section-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--accent);
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.ck-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.ck-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.ck-num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bad-soft);
+  color: var(--bad);
+  font-size: 12px;
+  font-weight: 600;
+}
+.ck-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-strong);
+  margin: 0;
+}
+.ck-card-detail {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+.ck-card-fix {
+  font-size: 13px;
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-radius: 6px;
+  padding: 8px 12px;
+  line-height: 1.55;
+}
+.ck-final {
+  margin-top: 40px;
+  padding: 24px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+}
+.ck-final h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--accent);
+  margin: 0 0 14px;
+}
+.ck-routine {
+  margin: 0;
+  padding-left: 22px;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.8;
+}
+.ck-routine li { margin-bottom: 4px; }
+.ck-footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+.ck-footer p { margin: 4px 0; }
