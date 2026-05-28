@@ -126,6 +126,11 @@ export default function Formulas() {
             note="Where x_{k+1} = n - x_1 - ... - x_k and p_{k+1} = 1 - p_1 - ... - p_k."
           />
           <Formula
+            label="Multinomial marginals & covariance"
+            math={"X_j \\sim \\text{Bin}(n, p_j), \\quad E[X_j] = np_j, \\quad \\operatorname{Var}(X_j) = np_j(1-p_j), \\quad \\operatorname{Cov}(X_i, X_j) = -np_i p_j"}
+            note="Covariance is always negative (i ≠ j). Each marginal is Binomial."
+          />
+          <Formula
             label="Multivariate Hypergeometric PMF"
             math={"f_{\\vec{X}}(x_1, \\ldots, x_k) = \\frac{\\binom{M_1}{x_1}\\binom{M_2}{x_2}\\cdots\\binom{M_k}{x_k}\\binom{M_{k+1}}{x_{k+1}}}{\\binom{N}{n}}"}
             given
@@ -289,6 +294,19 @@ export default function Formulas() {
               math={"E[X^n] = M_X^{(n)}(0) = \\frac{d^n}{dt^n} M_X(t)\\Big|_{t=0}"}
             />
             <Formula
+              label="Moments from joint MGF"
+              math={"E[X] = \\frac{\\partial M}{\\partial t_1}\\bigg|_{\\mathbf{0}}, \\quad E[XY] = \\frac{\\partial^2 M}{\\partial t_1\\,\\partial t_2}\\bigg|_{\\mathbf{0}}, \\quad E[X^2] = \\frac{\\partial^2 M}{\\partial t_1^2}\\bigg|_{\\mathbf{0}}"}
+              note="Evaluate all partial derivatives at t₁ = t₂ = 0."
+            />
+            <Formula
+              label="Marginal MGF from joint"
+              math={"M_X(t) = M_{X,Y}(t, 0), \\qquad M_Y(t) = M_{X,Y}(0, t)"}
+            />
+            <Formula
+              label="Independence via joint MGF"
+              math={"X \\perp Y \\iff M_{X,Y}(t_1, t_2) = M_X(t_1) \\cdot M_Y(t_2) \\quad \\text{for all } t_1, t_2"}
+            />
+            <Formula
               label="MGF of linear transform"
               math={"M_{aX+b}(t) = e^{bt}\\, M_X(at)"}
             />
@@ -318,6 +336,11 @@ export default function Formulas() {
               label="Multivariate Normal PDF (k dimensions)"
               math={"f_{\\vec{X}}(\\vec{x}) = \\frac{1}{\\sqrt{(2\\pi)^k |\\Sigma|}}\\exp\\!\\left[-\\tfrac{1}{2}(\\vec{x}-\\vec{\\mu})^T \\Sigma^{-1}(\\vec{x}-\\vec{\\mu})\\right]"}
               given
+            />
+            <Formula
+              label="Variance of linear combination (matrix form)"
+              math={"W = \\mathbf{a}\\mathbf{X}^T \\implies \\operatorname{Var}(W) = \\mathbf{a}\\,\\Sigma\\,\\mathbf{a}^T = \\sum_i a_i^2 \\sigma_i^2 + 2\\sum_{i<j} a_i a_j \\sigma_{ij}"}
+              note="Where Σ is the covariance matrix and a = (a₁, ..., aₖ)."
             />
           </SubSection>
         </Section>
@@ -393,6 +416,11 @@ export default function Formulas() {
             <Formula
               label="Sample variance"
               math={"S^2 = \\frac{1}{n-1}\\sum_{i=1}^n (X_i - \\bar{X})^2"}
+            />
+            <Formula
+              label="S² computational formula"
+              math={"S^2 = \\frac{\\sum_{i=1}^n X_i^2 - n\\bar{X}^2}{n-1} = \\frac{\\sum X_i^2 - (\\sum X_i)^2/n}{n-1}"}
+              note="Equivalent form — often faster when given ΣXᵢ and ΣXᵢ²."
             />
             <Formula
               label="E[X̄] and Var(X̄)"
